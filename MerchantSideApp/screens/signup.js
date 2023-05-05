@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableWithoutFeedback, Button, Alert, TouchableOpacity, Keyboard } from 'react-native'
+import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableWithoutFeedback, Button, Alert, TouchableOpacity, Keyboard, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 
 export default function Signup() {
@@ -37,6 +37,10 @@ export default function Signup() {
 
     function presshandler(){
         Keyboard.dismiss();
+    }
+
+    const handletouch = () => {
+
     }
 
   return (
