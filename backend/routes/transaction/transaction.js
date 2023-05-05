@@ -20,11 +20,25 @@ router.post('/transaction/', async function(req, res) {
         // get user id using mobile number then send it to blockchain
         // Get transaction hash
         const contractAbi = require('../../smart-contract/main_contract_abi.json');
-        const provider = new Web3.default.providers.HttpProvider(process.env.RPC_URL);
-        var web3 = new Web3(provider);
-        var mainContract = new web3.eth.Contract(contractAbi, process.env.CONTRACT_ADDRESS);
-        // var balance = await mainContract.methods.getBalance("1").call();
-        // console.log("balance : " + balance);
+        const provider = new Web3.providers.HttpProvider(process.env.RPC_URL);
+        const web3 = new Web3(provider);
+        const mainContract = new web3.eth.Contract(contractAbi, process.env.CONTRACT_ADDRESS);
+        
+        const data = mainContract.methods.transact(from, to, amount).encodeABI();
+        const gasPrice = await web3.eth.getGasPrice();
+        const nonce = await web3.eth.getTransactionCount(process.env.OWNER_ADDRESS);
+        const tx = {
+            from: process.env.OWNER_ADDRESS,
+            to: process.env.CONTRACT_ADDRESS,
+            nonce: nonce,
+            gasPrice: gasPrice,
+            gas: 300000,
+            data: data,
+        };
+        const signedTx = await web3.eth.signTransaction(tx, process.env.OWNER_PRIVATE_KEY);
+        const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
+
+        console.log(receipt);
 
         // store it in database (from, to, hash, date time, note, type:credit/debit, )
         // const transactionCollection = db.collection('transactions');

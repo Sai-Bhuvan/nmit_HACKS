@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json({limit:'50mb'}));
 
-const connUrl = "mongodb+srv://nmit_hacks:<password>@cluster0.wjhpxdo.mongodb.net/?retryWrites=true&w=majority";
+const connUrl = process.env.CONN_URL;
 const client = new MongoClient(connUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true
