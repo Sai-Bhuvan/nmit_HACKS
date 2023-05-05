@@ -1,11 +1,6 @@
 import React, { useState } from 'react'
-
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Button, Input, Layout, Text } from '@ui-kitten/components';
-import { View } from 'react-native';
-
-
-
+import { AButton, Input, Layout, Text } from '@ui-kitten/components';
 
 export default function SetPin() { 
 
@@ -29,8 +24,7 @@ export default function SetPin() {
         }
     }
 
-    return(
-        <ApplicationProvider {...eva} theme={eva.light}>
+    return(        
             <Layout>
                 <Input
                     label={"PIN"}
@@ -59,7 +53,7 @@ export default function SetPin() {
                     <Text>Submit</Text>
                 </Button>
             </Layout>  
-        </ApplicationProvider>
+       
     );
     
     
