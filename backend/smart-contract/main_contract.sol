@@ -1,4 +1,5 @@
-pragma solidity ^0.8.19;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
 
 contract main_contract 
 {
@@ -29,29 +30,26 @@ contract main_contract
     {
         require(msg.sender == owner, "Only owner can make a transaction");
 
-        user memory fromUser = users[from]; 
-        user memory toUser = users[to];
-
         // if from user doesn't exist 
-        require(fromUser.valid, "This is an invalid/not registered user"); 
+        require(users[from].valid, "This is an invalid/not registered user"); 
 
         // if from user has low balance
-        require(fromUser.balance >= amount, "Low balance, can't transact");
+        require(users[from].balance >= amount, "Low balance, can't transact");
 
         // if to user is invalid just register him
-        if(toUser.valid == false) 
+        if(users[to].valid == false) 
         {
-            registerUser(to);
+            users[to].valid = true;
         }
 
         // do transaction
-        fromUser.balance -= amount;
-        toUser.balance += amount;      
+        users[from].balance -= amount;
+        users[to].balance += amount;      
     }
 
     function getBalance(string memory id) public view returns(uint256) 
     {
-        require(msg.sender == owner, "Only owner can make a transaction");
+        require(msg.sender == owner, "Only owner can call this");
 
         return users[id].balance;                
     }
@@ -59,27 +57,23 @@ contract main_contract
     function deposit(string memory id) public payable 
     {
         require(msg.sender == owner, "Only owner can make a transaction");
-
-        user memory depoUser = users[id];
         
-        if(depoUser.valid == false)
+        if(users[id].valid == false)
         {
-            depoUser.valid = true;
+            users[id].valid = true;
         }
 
-        depoUser.balance += msg.value;                
+        users[id].balance += msg.value;                
     }
 
     function withdraw(string memory id, uint256 amount) public
     {
         require(msg.sender == owner, "Only owner can make a transaction");
-
-        user memory withdrawUser = users[id];
         
-        require(withdrawUser.valid == true, "This user cannot withdraw");
-        require(withdrawUser.balance >= amount, "Not enough balance");
+        require(users[id].valid == true, "This user cannot withdraw");
+        require(users[id].balance >= amount, "Not enough balance");
 
-        withdrawUser.balance -= amount;    
+        users[id].balance -= amount;    
         payable(owner).transfer(amount);   
     }
 

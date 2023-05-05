@@ -1,7 +1,8 @@
-import { Layout, Input, Text, Button } from '@ui-kitten/components';
-import React, { useState } from 'react'
-import global from '../global';
-import { Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { Layout, Input, Text, Button } from "@ui-kitten/components";
+import React, { useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import global from "../global";
+import { Alert, ScrollView, TouchableOpacity } from "react-native";
 
 export default function Signup() {
   const [name, setname] = useState("");
@@ -13,42 +14,43 @@ export default function Signup() {
   const [confirmpassword, setconfirmsetpassword] = useState("");
 
   async function Submit() {
-    // if (
-    //   !name ||
-    //   !phoneno ||
-    //   !email ||
-    //   !shop ||
-    //   !shopdetails ||
-    //   !password ||
-    //   !confirmpassword
-    // ) {
-    //   Alert.alert("OOPS", "sorry you have not entered ", [
-    //     { text: "OK", onPress: () => console.log("alert done") },
-    //   ]);
-    // }
-        if (password !== confirmpassword) {
-        Alert.alert("OOPS", "sorry your passwords are not matching change it", [
-            { text: "OK", onPress: () => console.log("password alert done") },
-        ]);
-        } else {
-        await fetch("http://10.0.2.2:3000/sign-up", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    name: name,
-                    email: email,
-                    phoneno: phoneno,
-                    password: password,
-                    shop: shop,
-                    shopdetails: shopdetails,
-                }
-            )
-        });
-        }
+    if (
+      !name ||
+      !phoneno ||
+      !email ||
+      !shop ||
+      !shopdetails ||
+      !password ||
+      !confirmpassword
+    ) {
+      Alert.alert("OOPS", "sorry you have not entered ", [
+        { text: "OK", onPress: () => console.log("alert done") },
+      ]);
     }
+    if (password !== confirmpassword) {
+      Alert.alert("OOPS", "sorry your passwords are not matching change it", [
+        { text: "OK", onPress: () => console.log("password alert done") },
+      ]);
+    } else {
+      await fetch("http://10.0.2.2:3000/sign-up", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                name: name,
+                email: email,
+                phoneno: phoneno,
+                password: password,
+                shop: shop,
+                shopdetails: shopdetails,
+            }
+        )
+      });
+      AsyncStorage.setItem('phone', phoneno);
+    }
+  }
 
   function presshandler() {
     Keyboard.dismiss();
@@ -143,38 +145,41 @@ export default function Signup() {
                                 onChangeText={(text)=>setpassword(text)}
                                 placeholder='enter your password'
                             />
-
                         </Layout>
 
-                        
-                        <Layout>
-                            <Input 
-                                style = {global.input}
-                                label= "Confirm Password"
-                                placeholder='confirm your password'
-                                keyboardType='default'
-                                value={confirmpassword}
-                                onChangeText={(text)=>setconfirmsetpassword(text)}
-                                secureTextEntry={true}
-                            />
+      <Layout>
+        <Text>Confirm your password</Text>
+          </Layout>
+          <Layout>
+            <Input
+              placeholder="confirm your password"
+              keyboardType="default"
+              value={confirmpassword}
+              onChangeText={(text) => setconfirmsetpassword(text)}
+              secureTextEntry={true}
+            />
+          </Layout>
 
-                        </Layout>
+          <Layout>
+            <Button
+              appearance="ghost"
+              onPress={() =>
+                Alert.alert("submit", "are u sure u want to submit", [
+                  { text: "yes", onPress: () => Submit() },
+                  { text: "no", onPress: () => console.log("user not registered") },
+                ])
+              }>
+              Sign Up
+            </Button>
+          </Layout>
 
-            
-            
-
-                        <Layout>
-                            <TouchableOpacity onPress={()=>{}} style = {global.touchableComp}>
-                                <Text>
-                                    Already have an account Sign-In
-                                </Text>
-                            </TouchableOpacity>
-                        </Layout>
-                      
-            </Layout> 
-            </ScrollView>
-        </Layout>
-    );
-    
-
+          <Layout>
+            <TouchableOpacity onPress={() => {}}>
+              <Text>Already have an account Sign-In</Text>
+            </TouchableOpacity>
+          </Layout>
+    </Layout>
+    </ScrollView>
+    </Layout>
+  );
 }
