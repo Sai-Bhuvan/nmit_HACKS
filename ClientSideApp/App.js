@@ -5,12 +5,8 @@ import SignUP from './screens/SignUP';
 export default function App() {
   return (
     <View style={styles.container}>
-<<<<<<< Updated upstream
       <Text>Hi</Text>
       <StatusBar style="auto" />
-=======
-      <SignUP/>      
->>>>>>> Stashed changes
     </View>
   );
 }

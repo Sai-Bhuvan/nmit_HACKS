@@ -1,36 +1,43 @@
 import { View, Text, SafeAreaView, ScrollView, TextInput, TouchableWithoutFeedback, Button, Alert, TouchableOpacity, Keyboard, StyleSheet } from 'react-native'
-import React, { useState } from 'react'
+import { React, useState } from 'react'
+import axios from 'axios';
 
 export default function Signup() {
-
-
-    const [name,setname]=useState("");
-    const [phoneno,setphoneno]=useState("");
-    const [email,setemail]=useState("");
-    const [shop,setshop]=useState("");
-    const [shopdetails,setshopdetails]=useState("");
-    const [password,setpassword]=useState("");
-    const [confirmpassword,setconfirmsetpassword]=useState("");
-
+    const [name,setname] = useState("");
+    const [phoneno,setphoneno] = useState("");
+    const [email,setemail] = useState("");
+    const [shop,setshop] = useState("");
+    const [shopdetails,setshopdetails] = useState("");
+    const [password,setpassword] = useState("");
+    const [confirmpassword,setconfirmsetpassword] = useState("");
 
     async function Submit(){
-        if(!name||!phoneno||!email||!shop||!shopdetails||!password||!confirmpassword){
+        if(!name || !phoneno || !email || !shop || !shopdetails || !password || !confirmpassword){
             Alert.alert("OOPS","sorry you have not entered ",[
                 {text:"OK",onPress:console.log("alert done")}
             ]);
         }
-        if(password!==confirmpassword){
+        if(password !== confirmpassword){
             Alert.alert("OOPS","sorry your passwords are not matching change it",[
                 {text:"OK",onPress:console.log("password alert done")}
             ])
         }
         
         else{
-            try{
-                console.log("hello");
-            }catch(err){
-                console.log(err);
-            }
+                axios.post("http://117.205.71.5:3000/sign-up/", {
+                    name,
+                    phoneno,
+                    email,
+                    shop,
+                    shopdetails,
+                    password,
+                })
+                .then(response =>{
+                    console.log(response);
+                })
+                .catch(err =>{
+                    console.log(err);
+                });
         }
     }
 
@@ -40,7 +47,7 @@ export default function Signup() {
     }
 
     const handletouch = () => {
-
+        Submit();
     }
 
   return (
@@ -168,20 +175,20 @@ export default function Signup() {
 
                 <View>
                     <Button 
-                        title='signin'
+                        title='Sign In'
                         borderRadius={3}
-                        onPress={Alert.alert("submit","are u sure u want to submit",[
+                        onPress={()=>Alert.alert("Submit","are u sure u want to submit",[
                             {text:"yes",onPress:()=>Submit()},
-                            {text:"no",onPress:console.log('user not registered')}
+                            {text:"no",onPress:()=>console.log('user not registered')}
                         ]
                         )}
                     />
                 </View>
 
                 <View>
-                    <TouchableOpacity onPress={handletouch()}>
+                    <TouchableOpacity onPress={()=>{}}>
                         <Text>
-                            Already have an account Sign-In
+                            Already have an account? Sign-In
                         </Text>
                     </TouchableOpacity>
                 </View>
