@@ -49,6 +49,10 @@ export default function SetPin() {
                     }}}
                 />
 
+                <Input 
+                    label=""
+                />
+
                 <Button onPress={handlePinPress} 
                     appearance='ghost'
                 >
