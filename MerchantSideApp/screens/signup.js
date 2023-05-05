@@ -1,4 +1,4 @@
-import { Layout, Input, Text, Button } from "@ui-kitten/components";
+import { Layout, Input, Text, Button, Divider } from "@ui-kitten/components";
 import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import global from "../global";
@@ -81,6 +81,7 @@ export default function Signup() {
                                 onChangeText={(text)=>setname(text)}
                                 keyboardType='default'
                             />
+                            <Divider/>
                         </Layout>
 
                         
@@ -93,6 +94,7 @@ export default function Signup() {
                                 value={phoneno}
                                 onChangeText={(text)=>setphoneno(text)}
                             />
+                            <Divider/>
                         </Layout>
 
                         
@@ -105,6 +107,7 @@ export default function Signup() {
                                 value={email}
                                 onChangeText={(text)=>setemail(text)}
                             />
+                            <Divider/>
                         </Layout>
 
                         
@@ -117,6 +120,7 @@ export default function Signup() {
                                 value={shop}
                                 onChangeText={(text)=>setshop(text)}
                             />
+                            <Divider/>
                         </Layout>
 
                         
@@ -133,6 +137,7 @@ export default function Signup() {
                                 numberOfLines={3}
                                 maxLength={40}
                             /> 
+                            <Divider/>
                         </Layout>
 
                         
@@ -145,19 +150,20 @@ export default function Signup() {
                                 onChangeText={(text)=>setpassword(text)}
                                 placeholder='enter your password'
                             />
+                            <Divider/>
                         </Layout>
 
-      <Layout>
-        <Text>Confirm your password</Text>
-          </Layout>
-          <Layout>
+        <Layout>
             <Input
+              style = {global.input}
               placeholder="confirm your password"
+              label={"Confirm Pin"}
               keyboardType="default"
               value={confirmpassword}
               onChangeText={(text) => setconfirmsetpassword(text)}
               secureTextEntry={true}
             />
+            <Divider/>
           </Layout>
 
           <Layout>
@@ -171,10 +177,11 @@ export default function Signup() {
               }>
               Sign Up
             </Button>
+            <Divider/>
           </Layout>
 
           <Layout>
-            <TouchableOpacity onPress={() => {}}>
+            <TouchableOpacity onPress={() => {}}  style = {global.touchableComp}>
               <Text>Already have an account Sign-In</Text>
             </TouchableOpacity>
           </Layout>

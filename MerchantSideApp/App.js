@@ -1,9 +1,7 @@
-import { Text, View } from 'react-native';
-import Signup from './screens/signup';
+import Signup from './screens/Signup';
 import SetPin from './screens/SetPin';
 import { ApplicationProvider, Layout, Input } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
-import global from './global';
 
 export default function App() {
 
@@ -15,9 +13,9 @@ export default function App() {
     <ApplicationProvider {...eva} theme={eva.light}>
       
         
-      {/* <Signup/> */}
+        <Signup/>
 
-        <SetPin/>
+        {/* <SetPin/> */}
       
     </ApplicationProvider>
     

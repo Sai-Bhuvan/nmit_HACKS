@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   screen: {
-    margin: 10,
+    margin: 0,
     
   },
 
@@ -38,8 +38,7 @@ export default StyleSheet.create({
 
   subHeaderText: {
     flex: 1,
-    textAlign: "center",
-    
+    textAlign: "center",    
   },
 
   headerText: {    
