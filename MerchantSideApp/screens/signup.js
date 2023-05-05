@@ -1,6 +1,6 @@
 import { Layout, Input, Text, Button } from '@ui-kitten/components';
 import React, { useState } from 'react'
-
+import global from '../global';
 import { Alert, TouchableOpacity } from 'react-native';
 
 export default function Signup() {
@@ -39,9 +39,9 @@ export default function Signup() {
         }
 
     return(
-            <Layout>           
+            <Layout style={global.container}>           
                 
-                        <Layout>
+                        <Layout >
                             <Text>
                                 Welcome to XYZ 
                             </Text>
@@ -53,14 +53,11 @@ export default function Signup() {
                             </Text>
                         </Layout>
 
-                        <Layout>
-                            <Text>
-                                Enter your name
-                            </Text>
-                        </Layout>
+                       
                         <Layout>
                             <Input 
-                            
+                                label={ "Enter your name"}
+                                style={global.input}
                                 placeholder='enter your name'
                                 value={name}
                                 onChangeText={(text)=>setname(text)}
@@ -68,13 +65,11 @@ export default function Signup() {
                             />
                         </Layout>
 
+                        
                         <Layout>
-                            <Text>
-                                Enter your mobile number
-                            </Text>
-                        </Layout>
-                        <Layout>
-                            <Input                         
+                            <Input      
+                                label={" Enter your mobile number"}      
+                                style={global.input}             
                                 placeholder='enter your shop mobile number'
                                 keyboardType='numeric'
                                 value={phoneno}
@@ -82,14 +77,11 @@ export default function Signup() {
                             />
                         </Layout>
 
-                        <Layout>
-                            <Text>
-                                Enter your email
-                            </Text>
-                        </Layout>
+                        
                         <Layout>
                             <Input 
-                            
+                                label={"Enter your email"}
+                                style={global.input}
                                 placeholder='enter your shop email'
                                 keyboardType='email-address'
                                 value={email}
@@ -97,14 +89,11 @@ export default function Signup() {
                             />
                         </Layout>
 
-                        <Layout>
-                            <Text>
-                                Enter your shop name
-                            </Text>
-                        </Layout>
+                        
                         <Layout>
                             <Input 
-                            
+                                label={"enter your shop name"}
+                                style={global.input}
                                 placeholder='enter your shop name'
                                 keyboardType='default'
                                 value={shop}
@@ -112,13 +101,10 @@ export default function Signup() {
                             />
                         </Layout>
 
-                        <Layout>
-                            <Text>
-                                Enter a brief discription of your shop
-                            </Text>
-                        </Layout>
+                        
                         <Layout>
                             <Input
+                                label={"write briefly about your shop"}
                                 placeholder="enter briefly about "
                                 multiline
                                 editable
@@ -130,11 +116,11 @@ export default function Signup() {
                             /> 
                         </Layout>
 
-                        <Layout>
-                            <Text>enter your password to signin</Text>
-                        </Layout>
+                        
                         <Layout>
                             <Input 
+                                label={"enter your password"}
+                                style={global.input}
                                 keyboardType='default'
                                 value={password}
                                 onChangeText={(text)=>setpassword(text)}
@@ -143,13 +129,10 @@ export default function Signup() {
 
                         </Layout>
 
-                        <Layout>
-                            <Text>
-                                Confirm your password
-                            </Text>
-                        </Layout>
+                        
                         <Layout>
                             <Input 
+                                label={"confirm your password"}
                                 placeholder='confirm your password'
                                 keyboardType='default'
                                 value={confirmpassword}
@@ -173,7 +156,7 @@ export default function Signup() {
                         </Layout>
 
                         <Layout>
-                            <TouchableOpacity onPress={()=>{}}>
+                            <TouchableOpacity onPress={()=>{navigator.navigate(signIn)}}>
                                 <Text>
                                     Already have an account Sign-In
                                 </Text>
