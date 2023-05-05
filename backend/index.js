@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json({limit:'100mb'}));
 
 const connUrl = process.env.CONN_URL;
-const client = new MongoClient(connUrl, {
+const client = new MongoClient("mongodb+srv://nmit_hacks:ifyouseethisyouaregay@cluster0.wjhpxdo.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
@@ -40,16 +40,16 @@ app.use(require('./routes/transaction/transactionStatus'));
 app.post("/sign-up", async (req, res)=>{
     try {
         const myDb = db;
-        console.log(newMerchant);
-        const newMerchant = [{
+        console.log(req.body);
+        const newMerchant = {
             name: req.body.name,
             email: req.body.email,
             shopName: req.body.shop,
             shopDetails: req.body.shopdetails,
             phoneNo: req.body.phoneno,
             password: bcrypt.hashSync(req.body.password, bcryptSalt),
-        }];
-        console.log(registered);
+        };
+        // console.log(registered);
         const mer = db.collection("Merchants");
 
         const registered = await mer.insertOne(newMerchant);

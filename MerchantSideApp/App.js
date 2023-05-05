@@ -1,5 +1,5 @@
 import { Text, View } from 'react-native';
-import Signup from './screens/Signup';
+import Signup from './screens/signup';
 import SetPin from './screens/SetPin';
 import { ApplicationProvider, Layout, Input } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
@@ -14,22 +14,21 @@ export default function App() {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <View >
-        {/* <Text>Merchant app</Text>
+        <Text>Merchant app</Text>
         {/* <Signup/> */}
 
-        {/* {<SetPin/> } */}
-        <changePassword />
+        <SetPin/>
       </View>
     </ApplicationProvider>
     
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//   },
+// });

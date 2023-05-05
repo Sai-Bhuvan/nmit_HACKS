@@ -13,7 +13,6 @@ export default function SetPin() {
             //send to backend
             
         }
-
         else{
             setConfirmPin();           
         }
