@@ -34,9 +34,9 @@ export default function Signup() {
             Keyboard.dismiss();
         }
 
-        const handletouch = () => {
-
-        }
+    const handletouch = () => {
+        Submit();
+    }
 
     return(
             <Layout style={global.container}>           
