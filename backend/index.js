@@ -23,6 +23,8 @@ const db = client.db('backend');
 // Routes to different services
 app.use(require('./routes/transaction/transaction'));
 app.use(require('./routes/transaction/transactionStatus'));
+app.use(require('./routes/transaction/deposit'));
+app.use(require('./routes/face-recognition/face-recognition'));
 
 // Global error handling
 app.use(function (err, _req, res) {
@@ -35,4 +37,8 @@ app.listen(PORT, () => {
     console.log(`Server is running on port: ${PORT}`);
 });
 
-module.exports = { db };
+function getDb() {
+    return db;
+}
+
+exports.getDb = getDb;
