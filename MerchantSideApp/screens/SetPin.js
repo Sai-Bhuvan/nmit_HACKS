@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
-
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Button, Input, Layout, Text } from '@ui-kitten/components';
-import { View } from 'react-native';
-
-
-
+import { Button, Input, Layout, Text } from '@ui-kitten/components';
+import global from '../global';
 
 export default function SetPin() { 
 
@@ -29,11 +25,11 @@ export default function SetPin() {
         }
     }
 
-    return(
-        <ApplicationProvider {...eva} theme={eva.light}>
-            <Layout>
+    return(        
+            <Layout style = {global.container}>
                 <Input
-                    label={"PIN"}
+                    style = {global.input}
+                    label = "PIN"
                     placeholder='Enter PIN'
                     secureTextEntry = {true}
                     value = {pin}
@@ -42,7 +38,8 @@ export default function SetPin() {
                     />
 
                 <Input
-                label={"Confirm PIN"}
+                    style = {global.input}
+                    label = "Confirm PIN"
                     placeholder='Confirm PIN'
                     secureTextEntry = {true}
                     value = {confirmPin}
@@ -59,7 +56,7 @@ export default function SetPin() {
                     <Text>Submit</Text>
                 </Button>
             </Layout>  
-        </ApplicationProvider>
+       
     );
     
     

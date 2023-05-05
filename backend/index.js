@@ -15,7 +15,7 @@ const pass = process.env.PASS;
 app.use(cors());
 app.use(express.json({limit:'100mb'}));
 
-const connUrl = `mongodb+srv://nmit_hacks:${pass}@cluster0.wjhpxdo.mongodb.net/?retryWrites=true&w=majority`;
+const connUrl = process.env.CONN_URL;
 const client = new MongoClient(connUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true

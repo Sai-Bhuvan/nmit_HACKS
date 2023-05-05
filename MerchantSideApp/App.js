@@ -1,13 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Signup from './screens/signup';
+import { Text, View } from 'react-native';
+import Signup from './screens/Signup';
+import SetPin from './screens/SetPin';
+import { ApplicationProvider, Layout, Input } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
+import global from './global';
 
 export default function App() {
-  return(
-    <View>
-      <Signup />
-    </View>
-  );
+  return (
+    <ApplicationProvider {...eva} theme={eva.light}>
+      <View >
+        <Text>Merchant app</Text>
+        {/* <Signup/> */}
+
+        <SetPin/>
+      </View>
+    </ApplicationProvider>
+    
+  )
 }
 
 const styles = StyleSheet.create({
