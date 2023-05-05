@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import * as eva from '@eva-design/eva';
-import { AButton, Input, Layout, Text } from '@ui-kitten/components';
+import { Button, Input, Layout, Text } from '@ui-kitten/components';
+import global from '../global';
 
 export default function SetPin() { 
 
@@ -25,9 +26,10 @@ export default function SetPin() {
     }
 
     return(        
-            <Layout>
+            <Layout style = {global.container}>
                 <Input
-                    label={"PIN"}
+                    style = {global.input}
+                    label = "PIN"
                     placeholder='Enter PIN'
                     secureTextEntry = {true}
                     value = {pin}
@@ -36,7 +38,8 @@ export default function SetPin() {
                     />
 
                 <Input
-                label={"Confirm PIN"}
+                    style = {global.input}
+                    label = "Confirm PIN"
                     placeholder='Confirm PIN'
                     secureTextEntry = {true}
                     value = {confirmPin}

@@ -173,7 +173,7 @@ export default function Signup() {
                         </Layout>
 
                         <Layout>
-                            <TouchableOpacity onPress={handletouch()}>
+                            <TouchableOpacity onPress={()=>{}}>
                                 <Text>
                                     Already have an account Sign-In
                                 </Text>
