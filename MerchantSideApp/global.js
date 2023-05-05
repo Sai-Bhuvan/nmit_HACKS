@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  screen: {
-    margin: 0,
-    
-  },
 
   container: {
     paddingTop: 15,

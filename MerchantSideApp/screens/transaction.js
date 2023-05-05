@@ -2,7 +2,7 @@ import { View, Text, FlatList, Touchable, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Layout } from '@ui-kitten/components';
 
-export default function transactions() {
+export default function Transactions() {
 
     const [transactions,settransactions]=useState("");
 

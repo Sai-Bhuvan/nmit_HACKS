@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import * as eva from '@eva-design/eva';
 import { Button, Divider, Input, Layout, Text } from '@ui-kitten/components';
 import global from '../global';
-import { ScrollView } from 'react-native';
+
 
 export default function SetPin() { 
 
@@ -26,8 +25,7 @@ export default function SetPin() {
     }
 
     return(        
-        <Layout>
-            <ScrollView>
+        <Layout style = {{}}>           
             
             <Layout>
                 <Text style = {global.headerText}>Set Pin</Text>
@@ -76,7 +74,7 @@ export default function SetPin() {
                     <Text>Submit</Text>
                 </Button>
             </Layout> 
-            </ScrollView>
+            
         </Layout> 
        
     );
