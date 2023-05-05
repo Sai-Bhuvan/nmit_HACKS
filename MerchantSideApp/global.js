@@ -1,19 +1,24 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  container: {
+  screen: {
     padding: 10,
-    margin: 50,
+  },
+
+  container: {
+    padding: 15,
+    marginTop: 30,
+    marginBottom: 30,
+    marginLeft: 20,
+    marginRight: 20,
     borderRadius: 10,
     borderColor: '#238',
-    borderWidth: 2
+    borderWidth: 2,
 
   },
 
   input: {
-    margin: 10,
-    padding: 5,
-    
+    margin: 10,  
     borderWidth: 2
   },
 
@@ -21,9 +26,18 @@ export default StyleSheet.create({
 
   },
 
-  headerText: {
-
+  subHeaderText: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 30,
   },
+
+  headerText: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 40,
+    paddingTop: 25,    
+  }
 
 
 });

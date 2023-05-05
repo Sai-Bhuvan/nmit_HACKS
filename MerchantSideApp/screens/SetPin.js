@@ -26,6 +26,7 @@ export default function SetPin() {
 
     return(        
             <Layout style = {global.container}>
+                <Text style = {global.headerText}>Set Pin</Text>
                 <Input
                     style = {global.input}
                     label = "PIN"
