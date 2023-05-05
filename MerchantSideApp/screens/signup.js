@@ -1,8 +1,8 @@
 import { Layout, Input, Text, Button } from "@ui-kitten/components";
 import React, { useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import { Alert, TouchableOpacity } from "react-native";
+import global from "../global";
+import { Alert, ScrollView, TouchableOpacity } from "react-native";
 
 export default function Signup() {
   const [name, setname] = useState("");

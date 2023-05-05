@@ -26,6 +26,7 @@ export default function SetPin() {
 
     return(        
             <Layout style = {global.container}>
+                <Text style = {global.headerText}>Set Pin</Text>
                 <Input
                     style = {global.input}
                     label = "PIN"
@@ -47,6 +48,10 @@ export default function SetPin() {
                     caption={() => {if(pin != confirmPin){
                        <Text>pin do not match</Text>                                         
                     }}}
+                />
+
+                <Input 
+                    label=""
                 />
 
                 <Button onPress={handlePinPress} 

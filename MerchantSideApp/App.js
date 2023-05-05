@@ -6,24 +6,22 @@ import * as eva from '@eva-design/eva';
 import global from './global';
 
 export default function App() {
+
+  const pro={
+    question:"hello how are you",
+    answer:"nice"
+  }
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <View >
         <Text>Merchant app</Text>
-        <Signup/>
+        {/* <Signup/> */}
 
-        {/* <SetPin/> */}
+        <SetPin/>
       </View>
     </ApplicationProvider>
     
   )
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//   },
-// });
+
