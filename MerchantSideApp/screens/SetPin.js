@@ -25,13 +25,17 @@ export default function SetPin() {
     }
 
     return(        
+        <Layout style = {global.screen}>
+
+            <Text style = {global.headerText}>Set Pin</Text>
             <Layout style = {global.container}>
-                <Text style = {global.headerText}>Set Pin</Text>
+                
                 <Input
                     style = {global.input}
-                    label = "PIN"
+                    label = {<Text style = {global.inputLabel}>PIN</Text>}
                     placeholder='Enter PIN'
                     secureTextEntry = {true}
+                    
                     value = {pin}
                     inputMode='numeric'
                     onChangeText={(val) => setPin(val)}
@@ -49,17 +53,14 @@ export default function SetPin() {
                        <Text>pin do not match</Text>                                         
                     }}}
                 />
-
-                <Input 
-                    label=""
-                />
-
+                
                 <Button onPress={handlePinPress} 
                     appearance='ghost'
                 >
                     <Text>Submit</Text>
                 </Button>
-            </Layout>  
+            </Layout> 
+        </Layout> 
        
     );
     

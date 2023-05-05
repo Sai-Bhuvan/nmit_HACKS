@@ -13,12 +13,12 @@ export default function App() {
   }
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <View >
-        <Text>Merchant app</Text>
-        {/* <Signup/> */}
+      
+        
+      {/* <Signup/> */}
 
         <SetPin/>
-      </View>
+      
     </ApplicationProvider>
     
   )
