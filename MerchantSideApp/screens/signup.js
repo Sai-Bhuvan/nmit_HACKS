@@ -1,6 +1,6 @@
 import { Layout, Input, Text, Button } from "@ui-kitten/components";
 import React, { useState } from "react";
-import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Alert, TouchableOpacity } from "react-native";
 
@@ -14,19 +14,19 @@ export default function Signup() {
   const [confirmpassword, setconfirmsetpassword] = useState("");
 
   async function Submit() {
-    // if (
-    //   !name ||
-    //   !phoneno ||
-    //   !email ||
-    //   !shop ||
-    //   !shopdetails ||
-    //   !password ||
-    //   !confirmpassword
-    // ) {
-    //   Alert.alert("OOPS", "sorry you have not entered ", [
-    //     { text: "OK", onPress: () => console.log("alert done") },
-    //   ]);
-    // }
+    if (
+      !name ||
+      !phoneno ||
+      !email ||
+      !shop ||
+      !shopdetails ||
+      !password ||
+      !confirmpassword
+    ) {
+      Alert.alert("OOPS", "sorry you have not entered ", [
+        { text: "OK", onPress: () => console.log("alert done") },
+      ]);
+    }
     if (password !== confirmpassword) {
       Alert.alert("OOPS", "sorry your passwords are not matching change it", [
         { text: "OK", onPress: () => console.log("password alert done") },
@@ -48,6 +48,7 @@ export default function Signup() {
             }
         )
       });
+      AsyncStorage.setItem('phone', phoneno);
     }
   }
 
