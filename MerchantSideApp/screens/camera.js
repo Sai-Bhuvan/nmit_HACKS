@@ -95,7 +95,7 @@ export default function camera() {
         </View>
       </Camera>
       :
-      <Image source={{uri:image}} style={styles.camera}/>
+      <Image source={{uri:image}} style={styles.Camera}/>
         }
       <View>
         {image?
