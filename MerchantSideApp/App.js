@@ -1,4 +1,4 @@
-import Signup from './screens/Signup';
+import Signup from './screens/signup';
 // import SetPin from './screens/SetPin';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,6 +9,7 @@ import Home from './screens/Home';
 import Transaction from './screens/transaction'
 import Profile from './screens/Profile'
 import SignIn from './screens/signin';
+import InitiateTransaction from './screens/InitiateTransaction';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -45,7 +46,6 @@ export default function App() {
       {/* <Signup/>
       <SignIn/> */}
     </ApplicationProvider>
-    
   )
 }
 

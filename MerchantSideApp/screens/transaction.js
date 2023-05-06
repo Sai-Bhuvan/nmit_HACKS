@@ -14,19 +14,19 @@ export default function Transactions() {
     async function fetchTransactions() {
         const mobNo =  await AsyncStorage.getItem('phone');
         var result = await fetch("http://10.0.2.2:3000/previousTransactions", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    phone: mobNo,
-                }
-            )
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                phone: mobNo,
+            }
+        )
         });
-        result = await result.json();
-        console.log(result);
+        console.log(result.data);
         }
+    
   return (
     <Layout>
         < FlatList 
