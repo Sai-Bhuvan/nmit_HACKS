@@ -8,7 +8,9 @@ import * as eva from '@eva-design/eva';
 import Home from './screens/Home';
 import Transactions from './screens/transaction'
 import Profile from './screens/Profile'
-import SignIn from './screens/signin';
+// import SignIn from './screens/signin';
+// import SetPin from './screens/SetPin';
+import InitiateTransaction from './screens/InitiateTransaction'
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -41,12 +43,14 @@ export default function App() {
   }
   return (
     <ApplicationProvider {...eva} theme={eva.dark}>
-      {/* <NavigationContainer>
+      <NavigationContainer>
         <TabNavigator/>
       </NavigationContainer>
       {/* <Signup/> */}
       {/* <SignIn/> */} 
-      <UserCamera/>
+      {/* <UserCamera/> */}
+      {/* <SetPin/> */}
+      
     </ApplicationProvider>
     
   )

@@ -2,6 +2,7 @@ import { View, Text, FlatList, Touchable, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Layout } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import global from '../global';
 
 export default function Transactions() {
 
@@ -28,7 +29,7 @@ export default function Transactions() {
         }
     
   return (
-    <Layout>
+    <Layout style = {global.screen}>
         < FlatList 
             data={transactions}
             renderItem={({item})=>{

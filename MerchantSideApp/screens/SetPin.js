@@ -25,7 +25,7 @@ export default function SetPin() {
     }
 
     return(        
-        <Layout>           
+        <Layout style = {global.screen}>           
             
             <Layout>
                 <Text style = {global.headerText}>Set Pin</Text>
