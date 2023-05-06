@@ -1,6 +1,7 @@
 import * as eva from '@eva-design/eva';
 import React, { useState } from 'react'
 import { Input, Layout, Text } from '@ui-kitten/components';
+import global from '../global';
 
 export default function changePassword({props}) {
 
@@ -22,8 +23,9 @@ export default function changePassword({props}) {
     
     <Layout>
         <Input 
+        style={global.input}
           label={"Enter the answer for your secret question to change password"}
-          placeholder='enter'
+          placeholder='enter your answer'
           onChangeText={(text)=>setanswer(text)}
           keyboardType='default'
           secureTextEntry = {true}

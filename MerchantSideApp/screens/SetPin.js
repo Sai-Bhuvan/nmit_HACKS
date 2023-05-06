@@ -6,6 +6,8 @@ import global from '../global';
 export default function SetPin() { 
 
     const [pin, setPin] = useState();
+    const [secretq,setsecretq]=useState("");
+    const [answer,setanswer]=useState("");
     const [confirmPin, setConfirmPin] = useState(); 
 
     const handlePinPress = () => {
@@ -75,6 +77,27 @@ export default function SetPin() {
                 </Button>
             </Layout> 
             
+            <Layout>
+                <Input 
+                    style={global.input}
+                    label="enter your secret which is asked when you forget the password"
+                    placeholder='enter secret question'
+                    value={secretq}
+                    onChangeText={(text)=>setsecretq(text)}
+
+                />
+            </Layout>
+
+            <Layout>
+                <Input 
+                    style={global.input}
+                    label="enter your answer for secret question"
+                    placeholder='enter secret answer'
+                    value={answer}
+                    onChangeText={(text)=>setanswer(text)}
+                    
+                />
+            </Layout>
         </Layout> 
        
     );
