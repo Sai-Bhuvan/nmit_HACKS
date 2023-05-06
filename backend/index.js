@@ -32,6 +32,7 @@ app.use(require('./routes/transaction/transactionStatus'));
 app.use(require('./routes/transaction/deposit'));
 app.use(require('./routes/face-recognition/face-recognition'));
 app.use(require('./routes/transaction/getBalance'));
+app.use(require('./routes/transaction/previousTransactions'));
 
 // Global error handling
 // app.use((err, _req, res)=> {
