@@ -1,4 +1,4 @@
-// import Signup from './screens/Signup';
+import Signup from './screens/Signup';
 // import SetPin from './screens/SetPin';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,6 +8,7 @@ import * as eva from '@eva-design/eva';
 import Home from './screens/Home';
 import Transaction from './screens/Transaction'
 import Profile from './screens/Profile'
+import SignIn from './screens/signin';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -37,10 +38,12 @@ export default function App() {
     answer:"nice"
   }
   return (
-    <ApplicationProvider {...eva} theme={eva.dark}>
-      <NavigationContainer>
+    <ApplicationProvider {...eva} theme={eva.light}>
+      {/* <NavigationContainer>
         <TabNavigator/>
-      </NavigationContainer>             
+      </NavigationContainer>              */}
+      {/* <Signup/> */}
+      <SignIn/>
     </ApplicationProvider>
     
   )
