@@ -5,8 +5,9 @@ import global from "../global";
 import { Alert, ScrollView, TouchableOpacity, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import * as FaceDetector from 'expo-face-detector';
+import Home from "./Home";
 
-export default function Signup() {
+export default function Signup({ navigation }) {
   const [name, setname] = useState("");
   const [phoneno, setphoneno] = useState("");
   const [email, setemail] = useState("");
@@ -20,6 +21,8 @@ export default function Signup() {
   const [image, setImage] = useState(null);
   const cameraref = useRef(null);
 
+  const nav = () => navigation.navigate('Home')
+  
   async function Submit() {
     if (
       !name ||
@@ -55,10 +58,17 @@ export default function Signup() {
                 image: image
             }
         )
-      });
+        
 
-      console.log(await res.json());
+      }
+      
+      );
+
+      //console.log(await res.json());
       await AsyncStorage.setItem('phone', phoneno);
+      if(res.status == 200){
+        nav();
+      }
     }
   }
 
