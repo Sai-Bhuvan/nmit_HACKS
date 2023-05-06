@@ -9,7 +9,6 @@ import Home from './screens/Home';
 import Transactions from './screens/transaction'
 import Profile from './screens/Profile'
 import SignIn from './screens/signin';
-import InitiateTransaction from './screens/InitiateTransaction';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -27,7 +26,7 @@ const BottomTabBar = ({ navigation, state }) => (
 const TabNavigator = () => (
   <Navigator tabBar={props => <BottomTabBar {...props} />}>
     <Screen name='Home' component={Home}/>
-    <Screen name='Transaction' component={Transaction}/>
+    <Screen name='Transaction' component={Transactions}/>
     <Screen name='Profile' component={Profile}/>
     <Screen name='Payment' component={InitiateTransaction}/>
   </Navigator>
@@ -44,11 +43,12 @@ export default function App() {
     <ApplicationProvider {...eva} theme={eva.dark}>
       {/* <NavigationContainer>
         <TabNavigator/>
-      </NavigationContainer>              */}
+      </NavigationContainer>
       {/* <Signup/> */}
       {/* <SignIn/> */} 
       <UserCamera/>
     </ApplicationProvider>
+    
   )
 }
 
