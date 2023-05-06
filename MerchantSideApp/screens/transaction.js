@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { Layout } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import global from '../global';
+import { List, ListItem } from '@ui-kitten/components';
 
-export default function Transactions() {
+export default function Transactions(item) {
 
     const [transactions, setTransactions]=useState([]);
     useEffect(()=>{
@@ -27,10 +28,19 @@ export default function Transactions() {
         });
         console.log(result.data);
         }
+
+        const renderItem = (item) => {
+            <ListItem
+                title = {`${item.from} to ${item.to}`}
+                description={item.date}
+                accessoryRight= {300}
+                
+            />
+        }
     
   return (
     <Layout style = {global.screen}>
-        < FlatList 
+        {/* < FlatList 
             data={transactions}
             renderItem={({item})=>{
                 <TouchableOpacity onPress={()=>navigation.navigate('eachtransaction',item)}>
@@ -45,8 +55,12 @@ export default function Transactions() {
                     </Text>
                 </TouchableOpacity>
             }}
+        /> */}
+        <List
+            data={item}
+            renderItem={renderItem}
         />
-
+        
         {/* <List
             style={global.container}
             data={data}

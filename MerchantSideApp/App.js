@@ -1,4 +1,4 @@
-import Signup from './screens/signup';
+import Signup from './screens/Signup';
 // import SetPin from './screens/SetPin';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,7 +11,8 @@ import Profile from './screens/Profile'
 // import SignIn from './screens/signin';
 import SetPin from './screens/SetPin';
 import InitiateTransaction from './screens/InitiateTransaction'
-import ChangePassword from './screens/changepassword';
+//import ChangePassword from './screens/changepassword';
+
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -44,11 +45,12 @@ export default function App() {
   }
   return (
     <ApplicationProvider {...eva} theme={eva.dark}>
-      <NavigationContainer>
+      {/* <NavigationContainer>
         <TabNavigator/>
-      </NavigationContainer>         
+      </NavigationContainer>          */}
       {/* <Signup/> */}
       {/* <SignIn/> */}
+      <Transactions item = {[{from: "user", to: "keeper", date: "23-03-24" }]}/>
     </ApplicationProvider>
     
   )
