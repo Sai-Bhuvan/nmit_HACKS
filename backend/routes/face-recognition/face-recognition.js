@@ -11,7 +11,7 @@ faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 const { test1, test2 } = require('./test');
 
 // optimization (takes time from 20s to ~1.5s)
-require('@tensorflow/tfjs-node');
+// require('@tensorflow/tfjs-node');
 
 async function init() {
     await faceapi.nets.ssdMobilenetv1.loadFromDisk("./routes/face-recognition/models");
