@@ -48,7 +48,7 @@ export default function Signup() {
             }
         )
       });
-      AsyncStorage.setItem('phone', phoneno);
+      await AsyncStorage.setItem('phone', phoneno);
     }
   }
 

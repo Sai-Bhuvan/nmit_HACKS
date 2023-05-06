@@ -4,10 +4,11 @@ import axios from "axios";
 import { useState } from "react";
 import { Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 export default function SignIn() {
-    const mobNo = AsyncStorage.getItem('phone');
     const [Pin, setPin] = useState("");
     async function Login() {
-        const result = await fetch("http://10.0.2.2:3000/sign-in", {
+        const mobNo =  await AsyncStorage.getItem('phone');
+        console.log(mobNo)
+        var result = await fetch("http://10.0.2.2:3000/sign-in", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -15,12 +16,15 @@ export default function SignIn() {
         body: JSON.stringify(
             {
                 pin: Pin,
-                phone: phone,
+                phone: mobNo,
             }
         )
       });
-      if (result == "pass-ok") {
-        
+
+      if (result.status == 200) {
+        Alert.alert(" password Ok", "you have entered the correct password. ", [
+            { text: "OK", onPress: () => console.log("alert done") },
+          ]);
       }
       else{
         Alert.alert("Wrong password", "you have entered the wrong password. Please try again. ", [

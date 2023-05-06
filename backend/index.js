@@ -63,17 +63,20 @@ app.post("/sign-up", async (req, res)=>{
 })
 
 // Sign-In
-app.post("/sign-in", (req, res)=>{
+app.post("/sign-in", async (req, res)=>{
     const pin = req.body.pin;
     const phone = req.body.phone;
+    console.log(req.body);
     const mer = db.collection("Merchants");
-    const userFound = mer.findOne({phoneNo: phone});
-    const passOk = bcrypt.hashSync(bcrypt.compareSync(pin, userFound.password));
+    const userFound = await mer.findOne({phoneNo: phone});
+    console.log(userFound);
+    const passOk = bcrypt.compareSync(pin, userFound.password);
+    console.log(passOk);
     if (passOk) {
-        res.status(200).json("pass-ok");
+        res.status(200).json({ message: 'pass-ok', statusCode: 200 });
     }
     else{
-        res.status(400).json("pass wrong");
+        res.status(200).json({ message: 'pass-wrong', statusCode: 400 });
     }
 })
 
