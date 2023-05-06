@@ -181,8 +181,8 @@ export default function Signup() {
           </Layout>
 
           <Layout>
-            <TouchableOpacity onPress={() => {}}  style = {global.touchableComp}>
-              <Text>Already have an account Sign-In</Text>
+            <TouchableOpacity onPress={() => {}}  >
+              <Text style = {global.touchableComp}>Already have an account Sign-In</Text>
             </TouchableOpacity>
           </Layout>
     </Layout>
