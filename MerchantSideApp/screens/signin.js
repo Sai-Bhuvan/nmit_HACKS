@@ -1,13 +1,16 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { pid } from "process";
+import global from "../global";
+// import { pid } from "process";
 import { useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
-const mobNo = AsyncStorage.getItem('phone');
-export default function SignIn({mobno}) {
+import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Input, Layout, Text } from "@ui-kitten/components";
+export default function SignIn() {
     const [Pin, setPin] = useState("");
     async function Login() {
-        const result = await fetch("http://10.0.2.2:3000/sign-in", {
+        const mobNo =  await AsyncStorage.getItem('phone');
+        console.log(mobNo)
+        var result = await fetch("http://10.0.2.2:3000/sign-in", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -15,12 +18,15 @@ export default function SignIn({mobno}) {
         body: JSON.stringify(
             {
                 pin: Pin,
-                phone: phone,
+                phone: mobNo,
             }
         )
       });
-      if (result == "pass-ok") {
-        
+
+      if (result.status == 200) {
+        Alert.alert(" password Ok", "you have entered the correct password. ", [
+            { text: "OK", onPress: () => console.log("alert done") },
+          ]);
       }
       else{
         Alert.alert("Wrong password", "you have entered the wrong password. Please try again. ", [
@@ -29,20 +35,28 @@ export default function SignIn({mobno}) {
       }
     }
     return (
-       <View>
-        <Text style={styles.text1}>Enter your 4 digit Pin</Text>
-        <Text style={styles.text2}>{mobno}</Text>
-        <TextInput 
-        maxLength={4}
-        style={styles.input} 
-        keyboardType="numeric"
-        secureTextEntry={true}>
-        value = {Pin}
-        onChangeText = {(text)=>setPin(text)};
-        </TextInput>
-        <TouchableOpacity onPress={()=>Login()}>Login</TouchableOpacity>
-       </View>
+        <Layout>
+            <Text style = {global.headerText}>Sing In</Text>
+            <Layout style = {global.container}>
+                {/* <Text style={styles.text1}>Enter your 4 digit Pin</Text>
+                <Text style={styles.text2}>{mobNo}</Text> */}
+                <Input 
+                placeholder="Enter PIN"
+                label={"PIN"}
+                maxLength={4}
+                style={global.input} 
+                keyboardType="numeric"
+                secureTextEntry={true}
+                value = {Pin}
+                onChangeText = {(text)=>setPin(text)}
+                />
+            
+                
+                <TouchableOpacity onPress={()=>Login()} style = {global.touchableComp}><Text>Login</Text></TouchableOpacity>
+        </Layout>
 
+        </Layout>
+       
     )
 }
 

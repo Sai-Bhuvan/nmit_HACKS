@@ -10,6 +10,9 @@ faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
 const { test1, test2 } = require('./test');
 
+// optimization (takes time from 20s to ~1.5s)
+require('@tensorflow/tfjs-node');
+
 async function init() {
     await faceapi.nets.ssdMobilenetv1.loadFromDisk("./routes/face-recognition/models");
     await faceapi.nets.faceLandmark68Net.loadFromDisk("./routes/face-recognition/models");
@@ -30,6 +33,7 @@ router.post('/compareFace/', async function(req, res) {
         const userCol = db.collection('users');
         const user = userCol.findOne({ mobile: from });
         const dbImage = await canvas.loadImage(Buffer.from(test2, 'base64'));
+        // const dbImage = await canvas.loadImage(Buffer.from(user.image, 'base64'));
         
         // To optimize the same we can store detection result directly in mongodb
         const detection1 = await faceapi
