@@ -5,7 +5,7 @@ import global from "../global";
 import { useState } from "react";
 import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Input, Layout, Text } from "@ui-kitten/components";
-export default function SignIn() {
+export default function SignIn({ onPageChange }) {
     const [Pin, setPin] = useState("");
     const [phoneNo, setPhoneNo] = useState();
 

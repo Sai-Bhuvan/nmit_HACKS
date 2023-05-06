@@ -49,7 +49,7 @@ export default function InitiateTransaction(){
 
                 console.log('verifying');
                 
-                var result = await fetch('http://192.168.137.1:3000/compareFace', {
+                var result = await fetch('http://10.0.2.2:3000/compareFace', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ export default function InitiateTransaction(){
                     // Take to transaction processing page
                     setTransactionStatus('YES');
 
-                    var receipt = await fetch('http://192.168.137.1:3000/transaction', {
+                    var receipt = await fetch('http://10.0.2.2:3000/transaction', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -122,67 +122,63 @@ export default function InitiateTransaction(){
     return (
         <Layout style={global.screen}>
             {
-                transactionStatus == 'NO' ? <ProcessTransaction/> : <TransactionSuccess transactionStatus={transactionStatus} onPressDone={resetState}/>
+                transactionStatus == 'NO' ? (<Layout style={global.screen}>
+                    {!openCamera ?
+                        <Layout>
+                            <Input
+                                style={global.input}
+                                label="Mobile Number"
+                                placeholder='Enter your Mobile Number'
+                                value={mobNo}
+                                onChangeText={(text) => setMobNo(text)}
+                                keyboardType='numeric' />
+                            <Input
+                                style={global.input}
+                                label="Amount"
+                                placeholder='Enter amount'
+                                value={amt}
+                                onChangeText={(text) => setAmt(text)}
+                                keyboardType='default' />
+                            <Input
+                                style={global.input}
+                                label="PIN"
+                                placeholder='Enter your 4 digit PIN'
+                                value={pin}
+                                onChangeText={(text) => SetPin(text)}
+                                keyboardType='default' />
+                            <Button
+                                style={global.button}
+                                appearance='outline'
+                                onPress={() => setOpenCamera(true)}
+                            >
+                                <Text>Submit</Text>
+                            </Button>
+                        </Layout>
+                        :
+                        <View style={global.screen}>
+                            <Camera
+                                onFacesDetected={handleFacesDetected}
+                                faceDetectorSettings={{
+                                    mode: FaceDetector.FaceDetectorMode.fast,
+                                    detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
+                                    runClassifications: FaceDetector.FaceDetectorClassifications.none,
+                                    minDetectionInterval: 100,
+                                    tracking: true
+                                }}
+                                ref={cameraref}
+                                style={{ flex: 1 }}
+                                type={CameraType.front}
+                            >
+                                <Button
+                                    style={[global.button, { flexDirection: 'row', margin: 60, alignSelf: 'flex-end' }]}
+                                    appearance='outline'
+                                    onPress={takePicture}
+                                    disabled={!canTakePic}
+                                ><Text>Verify</Text></Button>
+                            </Camera>
+                        </View>}
+                </Layout>) : <TransactionSuccess transactionStatus={transactionStatus} onPressDone={resetState}/>
             }
         </Layout>
-    )
-
-    function ProcessTransaction() {
-        return <Layout style={global.screen}>
-            {!openCamera ?
-                <Layout>
-                    <Input
-                        style={global.input}
-                        label="Mobile Number"
-                        placeholder='Enter your Mobile Number'
-                        value={mobNo}
-                        onChangeText={(text) => setMobNo(text)}
-                        keyboardType='numeric' />
-                    <Input
-                        style={global.input}
-                        label="Amount"
-                        placeholder='Enter amount'
-                        value={amt}
-                        onChangeText={(text) => setAmt(text)}
-                        keyboardType='default' />
-                    <Input
-                        style={global.input}
-                        label="PIN"
-                        placeholder='Enter your 4 digit PIN'
-                        value={pin}
-                        onChangeText={(text) => SetPin(text)}
-                        keyboardType='default' />
-                    <Button
-                        style={global.button}
-                        appearance='outline'
-                        onPress={() => setOpenCamera(true)}
-                    >
-                        <Text>Submit</Text>
-                    </Button>
-                </Layout>
-                :
-                <View style={global.screen}>
-                    <Camera
-                        onFacesDetected={handleFacesDetected}
-                        faceDetectorSettings={{
-                            mode: FaceDetector.FaceDetectorMode.fast,
-                            detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
-                            runClassifications: FaceDetector.FaceDetectorClassifications.none,
-                            minDetectionInterval: 100,
-                            tracking: true
-                        }}
-                        ref={cameraref}
-                        style={{ flex: 1 }}
-                        type={CameraType.front}
-                    >
-                        <Button
-                            style={[global.button, { flexDirection: 'row', margin: 60, alignSelf: 'flex-end' }]}
-                            appearance='outline'
-                            onPress={takePicture}
-                            disabled={!canTakePic}
-                        ><Text>Verify</Text></Button>
-                    </Camera>
-                </View>}
-        </Layout>;
-    }
+    );
 }

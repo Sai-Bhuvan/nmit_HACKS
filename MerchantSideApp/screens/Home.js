@@ -4,6 +4,11 @@ import global from '../global'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home() {
+
+  
+
+
+
   const [balance, setBalance] = useState('loading...');
   useEffect(()=> {
     async function getBalance() {
@@ -29,9 +34,14 @@ export default function Home() {
     getBalance();
   }, []);
   return (
+
+    
+      
    <Layout style = {global.screen}>
       <Text style = {global.headerText}>Balance</Text>
       <Text style = {global.subHeaderText}>{balance}</Text>
    </Layout>
   )
 }
+
+

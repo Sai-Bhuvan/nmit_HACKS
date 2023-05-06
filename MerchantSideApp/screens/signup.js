@@ -7,7 +7,7 @@ import { Camera, CameraType } from "expo-camera";
 import * as FaceDetector from 'expo-face-detector';
 import Home from "./Home";
 
-export default function Signup({ navigation }) {
+export default function Signup({ onPageChange }) {
   const [name, setname] = useState("");
   const [phoneno, setphoneno] = useState("");
   const [email, setemail] = useState("");
@@ -21,8 +21,8 @@ export default function Signup({ navigation }) {
   const [image, setImage] = useState(null);
   const cameraref = useRef(null);
 
-  const nav = () => navigation.navigate('Home')
   
+
   async function Submit() {
     if (
       !name ||
@@ -42,7 +42,7 @@ export default function Signup({ navigation }) {
         { text: "OK", onPress: () => console.log("password alert done") },
       ]);
     } else {
-      var res =await fetch("http://192.168.137.1:3000/sign-up", {
+      var res =await fetch("http://10.0.2.2:3000/sign-up", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -64,10 +64,10 @@ export default function Signup({ navigation }) {
       
       );
 
-      //console.log(await res.json());
+      console.log(await res.json());
       await AsyncStorage.setItem('phone', phoneno);
-      if(res.status == 200){
-        nav();
+      if(res.status == 201){
+        onPageChange('HomePage')
       }
     }
   }
@@ -236,17 +236,14 @@ export default function Signup({ navigation }) {
           <Layout>
             <Button
               appearance="ghost"
-              onPress={() => Alert.alert("submit", "are u sure u want to submit", [
-                { text: "yes", onPress: () => Submit() },
-                { text: "no", onPress: () => console.log("user not registered") },
-              ])}>
+              onPress={() => Submit()}>
               Sign Up
             </Button>
             <Divider />
           </Layout>
 
           <Layout>
-            <TouchableOpacity onPress={() => { } }>
+            <TouchableOpacity onPress={() => {  } }>
               <Text style={global.touchableComp}>Already have an account Sign-In</Text>
             </TouchableOpacity>
           </Layout>
