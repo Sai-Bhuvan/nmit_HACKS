@@ -19,11 +19,13 @@ contract main_contract
 
     mapping (string => user) users;
 
-    function registerUser(string memory id) public 
+    function registerUser(string memory id) public payable
     {
         require(msg.sender == owner, "Only owner can make a transaction");
 
         users[id].valid = true;
+        users[id].id = id;
+        users[id].balance = msg.value;
     }
 
     function transact(string memory from, string memory to, uint256 amount) public 

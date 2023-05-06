@@ -1,19 +1,32 @@
 const express = require('express');
 const router = express.Router();
 
-const Web3 = require('web3');
 const main = require('../../index');
+const bcrypt = require('bcrypt');
+const Web3 = require('web3');
 
-router.post('/deposit/', async function(req, res) {
+router.post("/sign-up", async (req, res)=>{
     try {
+        console.log('yo');
         const db = main.getDb();
-        const from = req.body.from;
-        const amount = req.body.amount;
+        const bcryptSalt = bcrypt.genSaltSync(10);
+        const pass = bcrypt.hashSync(req.body.password, bcryptSalt);
+        const newMerchant = {
+            name: req.body.name,
+            email: req.body.email,
+            shopName: req.body.shop,
+            shopDetails: req.body.shopdetails,
+            phoneNo: req.body.phoneno,
+            password: pass,
+            image: req.body.image
+        };
+        // console.log(registered);
+        const mer = db.collection("Merchants");
+        console.log('yo');
 
-        const users = db.collection('users');
-        const fromUser = await users.findOne({ mobile: from });
+        const registered = await mer.insertOne(newMerchant);
 
-        // if(!fromUser) throw Error('User not found!');
+        console.log(registered);
 
         const contractAbi = require('../../smart-contract/main_contract_abi.json');
         const provider = new Web3.providers.HttpProvider(process.env.RPC_URL, { timeout: 5000, keepAlive: true });
@@ -22,7 +35,7 @@ router.post('/deposit/', async function(req, res) {
         
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(process.env.OWNER_ADDRESS);
-        const data = await mainContract.methods.deposit("1").encodeABI();
+        const data = await mainContract.methods.registerUser(registered.insertedId.toString()).encodeABI();
         const tx = {
             from: process.env.OWNER_ADDRESS,
             to: process.env.CONTRACT_ADDRESS,
@@ -30,34 +43,32 @@ router.post('/deposit/', async function(req, res) {
             gasPrice: gasPrice,
             gas: 300000,
             data: data,
-            value: amount
+            value: 1000000
         };
         const signedTx = await web3.eth.accounts.signTransaction(tx, process.env.OWNER_PRIVATE_KEY);
         const receipt = await web3.eth.sendSignedTransaction(signedTx.rawTransaction);
         const transHash = receipt.transactionHash;
         const status = receipt.status == true ? 'SUCCESS' : 'FAILURE';
 
-        // console.log(receipt);
+        console.log(receipt);
 
         // store it in database (from, to, hash, date time, note, type:credit/debit, )
         // const transactionCollection = db.collection('transactions');
         const transCol = db.collection('transactions');
         await transCol.insertOne({
-            'from': from,
-            'to': 'self',
+            'from': 'boss',
+            'to': registered.insertedId,
             'time': Date.now(),
-            'amount': amount,
+            'amount': 1000000,
             'note': 'nice deposit',
             'transactionHash': transHash,
             'status': status
         });
 
-        res.status(200).json({ message: 'Transaction Success!', transactionHash: transHash, status: status, statusCode: 200 });
-
-        // res.status(200).json({ message: 'Not Implemented', statusCode: 200 });
-    }
-    catch(e) {
-        res.status(400).json({ message: e.message, statusCode: 400 });
+        console.log(registered);
+        res.status(201).json("registered");
+    } catch (err) {
+        res.status(400).json(err);
     }
 });
 

@@ -4,13 +4,14 @@ import global from "../global";
 import { Camera, CameraType } from "expo-camera";
 import * as FaceDetector from 'expo-face-detector';
 import { View } from "react-native";
+import TransactionSuccess from "./TransactionSuccess";
 
 export default function InitiateTransaction(){
     const [mobNo, setMobNo] = useState("");
     const [pin, SetPin] = useState("");
     const [amt, setAmt] = useState("");
 
-    const [transactionProcessing, setTransactionProcessing] = useState(false);
+    const [transactionStatus, setTransactionStatus] = useState('NO'); // NO, YES, SUCCESS, FAILURE
     const [openCamera, setOpenCamera] = useState(false);
     const [canTakePic, setCanTakePic] = useState(false);
     const [verified, setVerified] = useState(false);
@@ -68,46 +69,89 @@ export default function InitiateTransaction(){
                     setOpenCamera(false);
 
                     // Take to transaction processing page
+                    setTransactionStatus('YES');
+
+                    var receipt = await fetch('http://192.168.137.1:3000/transaction', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            from: "1",
+                            to: "2",
+                            amount: 1000000
+                        })
+                    });
+
+                    receipt = await receipt.json();
+                    console.log(receipt);
+                    setTransactionStatus(receipt.status);
+                }
+                else {
+                    Alert.alert("OOPS", "Could not verify it's you", [
+                        { text: "OK", onPress: () => console.log("alert done") },
+                      ]);
+
+                    setOpenCamera(false);
+                    setTransactionStatus('NO');
+                    setVerified(false);
                 }
 
                 // Send this image to backend to match
             }catch(e){
                 setOpenCamera(false);
+                setTransactionStatus('NO');
+                setVerified(false);
+
                 console.log(e);
             }
         }
+    }
+
+    function resetState() {
+        setOpenCamera(false);
+        setTransactionStatus('NO');
+        setVerified(false); 
+        setMobNo(null);
+        SetPin(null);
+        setAmt(null);
+
     }
 
 
     return (
         <Layout style={global.screen}>
             {
-            !openCamera ?
+                transactionStatus == 'NO' ? <ProcessTransaction/> : <TransactionSuccess transactionStatus={transactionStatus} onPressDone={resetState}/>
+            }
+        </Layout>
+    )
+
+    function ProcessTransaction() {
+        return <Layout style={global.screen}>
+            {!openCamera ?
                 <Layout>
-                    <Input 
-                            style = {global.input}
-                            label= "Mobile Number"
-                            placeholder='Enter your Mobile Number'
-                            value={mobNo}
-                            onChangeText={(text)=>setMobNo(text)}
-                            keyboardType='numeric'
-                        />
-                    <Input 
-                            style = {global.input}
-                            label= "Amount"
-                            placeholder='Enter amount'
-                            value={amt}
-                            onChangeText={(text)=>setAmt(text)}
-                            keyboardType='default'
-                        />
-                    <Input 
-                            style = {global.input}
-                            label= "PIN"
-                            placeholder='Enter your 4 digit PIN'
-                            value={pin}
-                            onChangeText={(text)=>SetPin(text)}
-                            keyboardType='default'
-                        />
+                    <Input
+                        style={global.input}
+                        label="Mobile Number"
+                        placeholder='Enter your Mobile Number'
+                        value={mobNo}
+                        onChangeText={(text) => setMobNo(text)}
+                        keyboardType='numeric' />
+                    <Input
+                        style={global.input}
+                        label="Amount"
+                        placeholder='Enter amount'
+                        value={amt}
+                        onChangeText={(text) => setAmt(text)}
+                        keyboardType='default' />
+                    <Input
+                        style={global.input}
+                        label="PIN"
+                        placeholder='Enter your 4 digit PIN'
+                        value={pin}
+                        onChangeText={(text) => SetPin(text)}
+                        keyboardType='default' />
                     <Button
                         style={global.button}
                         appearance='outline'
@@ -128,17 +172,17 @@ export default function InitiateTransaction(){
                             tracking: true
                         }}
                         ref={cameraref}
-                        style={{flex: 1}}
+                        style={{ flex: 1 }}
                         type={CameraType.front}
                     >
-                        {canTakePic && <Button
-                            style={[global.button, {flexDirection: 'row', margin:60, alignSelf: 'flex-end'}]}
+                        <Button
+                            style={[global.button, { flexDirection: 'row', margin: 60, alignSelf: 'flex-end' }]}
                             appearance='outline'
                             onPress={takePicture}
-                        ><Text>Verify</Text></Button>}
+                            disabled={!canTakePic}
+                        ><Text>Verify</Text></Button>
                     </Camera>
-                </View>
-            }
-        </Layout>
-    )
+                </View>}
+        </Layout>;
+    }
 }
