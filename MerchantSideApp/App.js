@@ -1,4 +1,4 @@
-import Signup from './screens/Signup';
+import Signup from './screens/signup';
 // import SetPin from './screens/SetPin';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -50,7 +50,7 @@ export default function App() {
       </NavigationContainer>          */}
       <Signup/>
       {/* <SignIn/> */}
-      <Transactions item = {[{from: "user", to: "keeper", date: "23-03-24" }]}/>
+      {/* <Transactions item = {[{from: "user", to: "keeper", date: "23-03-24" }]}/> */}
     </ApplicationProvider>
     
   )
