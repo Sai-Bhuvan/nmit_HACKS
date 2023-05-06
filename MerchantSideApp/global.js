@@ -41,7 +41,8 @@ export default StyleSheet.create({
 
   subHeaderText: {
     flex: 1,
-    textAlign: "center",    
+    textAlign: "center", 
+    fontSize: 30,   
   },
 
   headerText: {    
