@@ -1,6 +1,7 @@
 import { View, Text, FlatList, Touchable, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Layout } from '@ui-kitten/components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Transactions() {
 
@@ -12,20 +13,20 @@ export default function Transactions() {
 
     async function fetchTransactions() {
         const mobNo =  await AsyncStorage.getItem('phone');
-        var result = await fetch("http://10.0.2.2:3000/sign-in", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-                phone: mobNo,
-            }
-        )
+        var result = await fetch("http://10.0.2.2:3000/previousTransactions", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    phone: mobNo,
+                }
+            )
         });
-        console.log(result.data);
+        result = await result.json();
+        console.log(result);
         }
-    }
   return (
     <Layout>
         < FlatList 
@@ -45,4 +46,4 @@ export default function Transactions() {
             }}
         />
     </Layout>
-  )
+  )}

@@ -2,6 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 
+  screen: {
+    flex: 1,
+    justifyContent: "center"
+  },
+
   container: {
     paddingTop: 15,
     marginTop: 20,
@@ -15,7 +20,8 @@ export default StyleSheet.create({
 
 
   inputLabel: {
-    fontWeight: 700,
+    fontSize: 20,
+    fontWeight: 300,
   },
 
   input: {
@@ -27,19 +33,21 @@ export default StyleSheet.create({
   touchableComp: {
     paddingTop: 15,
     paddingBottom: 10,
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "300",
     paddingStart: 15,
+    textAlign: 'center',
   },
 
   subHeaderText: {
     flex: 1,
-    textAlign: "center",    
+    textAlign: "center", 
+    fontSize: 30,   
   },
 
   headerText: {    
     textAlign: "center",
-    fontSize: 40,
+    fontSize: 60,
     paddingTop: 40,    
     marginTop: 20,
   }

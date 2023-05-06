@@ -7,6 +7,8 @@ import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Input, Layout, Text } from "@ui-kitten/components";
 export default function SignIn() {
     const [Pin, setPin] = useState("");
+    const [phoneNo, setPhoneNo] = useState();
+
     async function Login() {
         const mobNo =  await AsyncStorage.getItem('phone');
         console.log(mobNo)
@@ -35,11 +37,23 @@ export default function SignIn() {
       }
     }
     return (
-        <Layout>
+        <Layout style = {global.screen}>
             <Text style = {global.headerText}>Sing In</Text>
             <Layout style = {global.container}>
                 {/* <Text style={styles.text1}>Enter your 4 digit Pin</Text>
                 <Text style={styles.text2}>{mobNo}</Text> */}
+
+            <Input 
+                placeholder="Enter Phone number"
+                label={<Text style = {global.inputLabel}>Phone no</Text>}
+                
+                style={global.input} 
+                keyboardType="numeric"
+                
+                value = {phoneNo}
+                onChangeText = {(text)=>setPhoneNo(text)}
+            />
+
                 <Input 
                 placeholder="Enter PIN"
                 label={"PIN"}
@@ -50,9 +64,11 @@ export default function SignIn() {
                 value = {Pin}
                 onChangeText = {(text)=>setPin(text)}
                 />
+
+               
             
                 
-                <TouchableOpacity onPress={()=>Login()} style = {global.touchableComp}><Text>Login</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>Login()} ><Text style = {global.touchableComp}>Login</Text></TouchableOpacity>
         </Layout>
 
         </Layout>

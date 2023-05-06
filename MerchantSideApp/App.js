@@ -39,14 +39,12 @@ export default function App() {
     answer:"nice"
   }
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      {/* <NavigationContainer>
+    <ApplicationProvider {...eva} theme={eva.dark}>
+      <NavigationContainer>
         <TabNavigator/>
       </NavigationContainer>              */}
       {/* <Signup/> */}
-      {/* <SignIn/> */}
-      {/* <Transactions/> */}
-      <camera/>
+      <SignIn/>
     </ApplicationProvider>
     
   )
