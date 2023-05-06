@@ -37,6 +37,7 @@ export default StyleSheet.create({
     fontWeight: "300",
     paddingStart: 15,
     textAlign: 'center',
+    
   },
 
   subHeaderText: {
