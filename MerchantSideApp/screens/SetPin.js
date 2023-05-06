@@ -6,6 +6,8 @@ import global from '../global';
 export default function SetPin() { 
 
     const [pin, setPin] = useState();
+    const [secretq,setsecretq]=useState("");
+    const [answer,setanswer]=useState("");
     const [confirmPin, setConfirmPin] = useState(); 
 
     const handlePinPress = () => {
@@ -25,7 +27,7 @@ export default function SetPin() {
     }
 
     return(        
-        <Layout>           
+        <Layout style = {global.screen}>           
             
             <Layout>
                 <Text style = {global.headerText}>Set Pin</Text>
@@ -68,13 +70,37 @@ export default function SetPin() {
             </Layout>
             <Divider/>
 
-                <Button onPress={handlePinPress} 
+                
+            
+            
+            <Layout>
+                <Input 
+                    style={global.input}
+                    label="Enter sequrity question"
+                    placeholder='enter secret question'
+                    value={secretq}
+                    onChangeText={(text)=>setsecretq(text)}
+
+                />
+            </Layout>
+
+            <Layout>
+                <Input 
+                    style={global.input}
+                    label="Enter answer"
+                    placeholder='enter secret answer'
+                    value={answer}
+                    onChangeText={(text)=>setanswer(text)}
+                    
+                />
+            </Layout>
+
+            <Button onPress={handlePinPress} 
                     appearance='ghost'
                 >
                     <Text>Submit</Text>
                 </Button>
-            </Layout> 
-            
+                </Layout> 
         </Layout> 
        
     );

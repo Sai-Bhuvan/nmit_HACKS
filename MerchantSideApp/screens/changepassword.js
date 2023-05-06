@@ -1,18 +1,22 @@
-import * as eva from '@eva-design/eva';
 import React, { useState } from 'react'
-import { Input, Layout, Text } from '@ui-kitten/components';
+import { Input, Layout, Text, Button } from '@ui-kitten/components';
+import global from '../global';
 
-export default function changePassword({props}) {
+export default function ChangePassword(props) {
 
   const [answer,setanswer]=useState("");
 
+  const handleAnswer = () => {}
   return (
-    <Layout>
+    <Layout  style = {global.screen}>
+      <Layout style = {global.container}>
+
+      
       <Layout>
-        <Text>changePassword</Text>
+        <Text style = {global.headerText}>Change Password</Text>
       </Layout>
     <Layout>
-      <Text>
+      <Text style = {{fontSize: 25, marginStart: 10}}>
         The Secret Question is:
       </Text>
       <Text>
@@ -22,8 +26,9 @@ export default function changePassword({props}) {
     
     <Layout>
         <Input 
+          style={global.input}
           label={"Enter the answer for your secret question to change password"}
-          placeholder='enter'
+          placeholder='enter your answer'
           onChangeText={(text)=>setanswer(text)}
           keyboardType='default'
           secureTextEntry = {true}
@@ -33,6 +38,12 @@ export default function changePassword({props}) {
             }
           }}
         />
+      </Layout>
+      <Button onPress={handleAnswer} 
+                    appearance='outline'
+                >
+                    <Text>Submit</Text>
+      </Button>
       </Layout>
     </Layout>
   )

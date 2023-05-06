@@ -3,13 +3,15 @@ import Signup from './screens/signup';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ApplicationProvider,BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
-
+import UserCamera from './screens/camera';
 import * as eva from '@eva-design/eva';
 import Home from './screens/Home';
 import Transactions from './screens/transaction'
 import Profile from './screens/Profile'
-import SignIn from './screens/signin';
-import InitiateTransaction from './screens/InitiateTransaction';
+// import SignIn from './screens/signin';
+import SetPin from './screens/SetPin';
+import InitiateTransaction from './screens/InitiateTransaction'
+import ChangePassword from './screens/changepassword';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -48,6 +50,7 @@ export default function App() {
       {/* <Signup/> */}
       {/* <SignIn/> */}
     </ApplicationProvider>
+    
   )
 }
 
