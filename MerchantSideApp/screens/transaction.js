@@ -27,6 +27,10 @@ export default function Transactions() {
         result = await result.json();
         console.log(result);
         }
+
+        const renderItem = () => {
+
+        }
   return (
     <Layout>
         < FlatList 
@@ -45,5 +49,12 @@ export default function Transactions() {
                 </TouchableOpacity>
             }}
         />
+
+        {/* <List
+            style={global.container}
+            data={data}
+            ItemSeparatorComponent={Divider}
+            renderItem={renderItem}
+        /> */}
     </Layout>
   )}
