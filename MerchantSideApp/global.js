@@ -45,6 +45,13 @@ export default StyleSheet.create({
     fontSize: 30,   
   },
 
+  button: {
+    margin: 2,
+    width: 200,
+    alignSelf:'center',
+    padding: 20
+  },
+
   headerText: {    
     textAlign: "center",
     fontSize: 60,
