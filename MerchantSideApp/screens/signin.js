@@ -1,8 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import global from "../global";
 // import { pid } from "process";
 import { useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Input, Layout, Text } from "@ui-kitten/components";
 export default function SignIn() {
     const [Pin, setPin] = useState("");
     async function Login() {
@@ -33,22 +35,28 @@ export default function SignIn() {
       }
     }
     return (
-       <View>
-        {/* <Text style={styles.text1}>Enter your 4 digit Pin</Text>
-        <Text style={styles.text2}>{mobNo}</Text> */}
-        <TextInput 
-        maxLength={4}
-        style={styles.input} 
-        keyboardType="numeric"
-        secureTextEntry={true}
-        value = {Pin}
-        onChangeText = {(text)=>setPin(text)}
-        />
-       
-        
-        <TouchableOpacity onPress={()=>Login()}><Text>Login</Text></TouchableOpacity>
-       </View>
+        <Layout>
+            <Text style = {global.headerText}>Sing In</Text>
+            <Layout style = {global.container}>
+                {/* <Text style={styles.text1}>Enter your 4 digit Pin</Text>
+                <Text style={styles.text2}>{mobNo}</Text> */}
+                <Input 
+                placeholder="Enter PIN"
+                label={"PIN"}
+                maxLength={4}
+                style={global.input} 
+                keyboardType="numeric"
+                secureTextEntry={true}
+                value = {Pin}
+                onChangeText = {(text)=>setPin(text)}
+                />
+            
+                
+                <TouchableOpacity onPress={()=>Login()} style = {global.touchableComp}><Text>Login</Text></TouchableOpacity>
+        </Layout>
 
+        </Layout>
+       
     )
 }
 
