@@ -70,17 +70,13 @@ export default function SetPin() {
             </Layout>
             <Divider/>
 
-                <Button onPress={handlePinPress} 
-                    appearance='ghost'
-                >
-                    <Text>Submit</Text>
-                </Button>
-            </Layout> 
+                
+            
             
             <Layout>
                 <Input 
                     style={global.input}
-                    label="enter your secret which is asked when you forget the password"
+                    label="Enter sequrity question"
                     placeholder='enter secret question'
                     value={secretq}
                     onChangeText={(text)=>setsecretq(text)}
@@ -91,13 +87,20 @@ export default function SetPin() {
             <Layout>
                 <Input 
                     style={global.input}
-                    label="enter your answer for secret question"
+                    label="Enter answer"
                     placeholder='enter secret answer'
                     value={answer}
                     onChangeText={(text)=>setanswer(text)}
                     
                 />
             </Layout>
+
+            <Button onPress={handlePinPress} 
+                    appearance='ghost'
+                >
+                    <Text>Submit</Text>
+                </Button>
+                </Layout> 
         </Layout> 
        
     );

@@ -9,8 +9,9 @@ import Home from './screens/Home';
 import Transactions from './screens/transaction'
 import Profile from './screens/Profile'
 // import SignIn from './screens/signin';
-// import SetPin from './screens/SetPin';
+import SetPin from './screens/SetPin';
 import InitiateTransaction from './screens/InitiateTransaction'
+import ChangePassword from './screens/changepassword';
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -43,14 +44,14 @@ export default function App() {
   }
   return (
     <ApplicationProvider {...eva} theme={eva.dark}>
-      <NavigationContainer>
+      {/* <NavigationContainer>
         <TabNavigator/>
-      </NavigationContainer>
+      </NavigationContainer> */}
       {/* <Signup/> */}
       {/* <SignIn/> */} 
       {/* <UserCamera/> */}
       {/* <SetPin/> */}
-      
+      <ChangePassword pops = {{question: "how are you?", answerreal: "Fine"}}/>
     </ApplicationProvider>
     
   )
