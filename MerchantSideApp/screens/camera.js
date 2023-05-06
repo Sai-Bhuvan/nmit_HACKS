@@ -3,9 +3,10 @@ import React, { useState,useEffect, useRef } from 'react'
 import { Camera,CameraType} from 'expo-camera';
 import * as FaceDetector from 'expo-face-detector';
 import * as MediaLibrary from 'expo-media-library';
-import Button from './src/Components/Button';
-
-export default function camera() {
+import Button from './src/Components/Button'
+import global
+ from '../global';
+export default function UserCamera() {
 
     const [hasCameraPermission,sethasCameraPermission]=useState(null);
     const [image,setimage]=useState(null);
@@ -44,12 +45,12 @@ export default function camera() {
         }
      }
 
-    const takepicture=async () =>{
+    const takepicture= async () =>{
         if(cameraref){
             try{
                 const data=await cameraref.current.takepictureAsync();
                 console.log(data);
-                setImage(data.uri);
+                setimage(data.uri);
             }catch(e){
                 console.log(e);
             }
@@ -95,7 +96,7 @@ export default function camera() {
         </View>
       </Camera>
       :
-      <Image source={{uri:image}} style={styles.camera}/>
+      <Image source={{uri:image}} style={styles.Camera}/>
         }
       <View>
         {image?
@@ -104,7 +105,8 @@ export default function camera() {
             <Button title={"save" } icon={"check"} onpress={saveimage}/>
         </View>
         :
-        <Button title={'take a p'} onpress={takepicture} disabled={takepicture} />
+        <Button  title = {<Text style = {{color: '#fff'}}>"photu"</Text>} onpress={takepicture} />
+        // disabled={takepicture}
         }
       </View>
 
