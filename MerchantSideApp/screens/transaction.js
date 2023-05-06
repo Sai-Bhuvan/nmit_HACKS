@@ -25,7 +25,6 @@ export default function Transactions() {
         });
         console.log(result.data);
         }
-    }
   return (
     <Layout>
         < FlatList 
@@ -45,4 +44,4 @@ export default function Transactions() {
             }}
         />
     </Layout>
-  )
+  )}

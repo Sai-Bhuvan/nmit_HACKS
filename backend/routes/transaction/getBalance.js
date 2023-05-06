@@ -21,7 +21,7 @@ router.post('/getBalance/', async function(req, res) {
         // send transaction t smart contract
         // get user id using mobile number then send it to blockchain
         const users = db.collection('users');
-        const fromUser = await users.findOne({ mobile: from });
+        const fromUser = await users.findOne({ phoneNo: from });
 
         // prepare smart contract
         const contractAbi = require('../../smart-contract/main_contract_abi.json');
@@ -32,7 +32,7 @@ router.post('/getBalance/', async function(req, res) {
         // const balance = await mainContract.methods.getBalance(fromUser._id.toString()).call({
         //     from: process.env.OWNER_ADDRESS
         // });
-        const balance = await mainContract.methods.getBalance(from).call({
+        const balance = await mainContract.methods.getBalance("1").call({
             from: process.env.OWNER_ADDRESS
         });
 
