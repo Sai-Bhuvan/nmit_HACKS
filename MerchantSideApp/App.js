@@ -6,7 +6,7 @@ import { ApplicationProvider,BottomNavigation, BottomNavigationTab } from '@ui-k
 
 import * as eva from '@eva-design/eva';
 import Home from './screens/Home';
-import Transaction from './screens/Transaction'
+import Transaction from './screens/transaction'
 import Profile from './screens/Profile'
 
 const { Navigator, Screen } = createBottomTabNavigator();
