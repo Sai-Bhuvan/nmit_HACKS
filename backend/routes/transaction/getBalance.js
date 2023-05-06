@@ -13,14 +13,11 @@ router.post('/getBalance/', async function(req, res) {
     const db = main.getDb();
     const body = req.body;
     const from = body.from;
-    const to = body.to;
-    const amount = body.amount;
-    const note = body.note;
     
     try {
         // send transaction t smart contract
         // get user id using mobile number then send it to blockchain
-        const users = db.collection('users');
+        const users = db.collection('Merchants');
         const fromUser = await users.findOne({ phoneNo: from });
 
         // prepare smart contract
@@ -29,12 +26,12 @@ router.post('/getBalance/', async function(req, res) {
         const web3 = await new Web3(provider);
         const mainContract = new web3.eth.Contract(contractAbi, process.env.CONTRACT_ADDRESS);
         
-        // const balance = await mainContract.methods.getBalance(fromUser._id.toString()).call({
-        //     from: process.env.OWNER_ADDRESS
-        // });
-        const balance = await mainContract.methods.getBalance("1").call({
+        const balance = await mainContract.methods.getBalance(fromUser._id.toString()).call({
             from: process.env.OWNER_ADDRESS
         });
+        // const balance = await mainContract.methods.getBalance("1").call({
+        //     from: process.env.OWNER_ADDRESS
+        // });
 
         res.status(200).json({ message: 'Got Balance', balance: balance, statusCode: 200 });
     }

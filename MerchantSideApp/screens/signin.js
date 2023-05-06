@@ -10,69 +10,79 @@ export default function SignIn({ onPageChange }) {
     const [phoneNo, setPhoneNo] = useState();
 
     async function Login() {
-        const mobNo =  await AsyncStorage.getItem('phone');
-        console.log(mobNo)
-        var result = await fetch("http://10.0.2.2:3000/sign-in", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-                pin: Pin,
-                phone: mobNo,
-            }
-        )
-      });
+        // const mobNo = await AsyncStorage.getItem('phone');
+        // console.log(mobNo)
+        var result = await fetch("http://192.168.137.1:3000/sign-in", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    pin: Pin,
+                    phone: phoneNo,
+                }
+            )
+        });
 
-      if (result.status == 200) {
-        Alert.alert(" password Ok", "you have entered the correct password. ", [
-            { text: "OK", onPress: () => console.log("alert done") },
-          ]);
-      }
-      else{
-        Alert.alert("Wrong password", "you have entered the wrong password. Please try again. ", [
-            { text: "OK", onPress: () => console.log("alert done") },
-          ]);
-      }
+        if (result.status == 200) {
+            // Alert.alert(" password Ok", "you have entered the correct password. ", [
+            //     { text: "OK", onPress: () => console.log("alert done") },
+            // ]);
+            result = await result.json();
+            console.log(result);
+            await AsyncStorage.setItem('phone', phoneNo);
+            await AsyncStorage.setItem('isMerchant', String(result.isMerchant));
+            onPageChange('HomePage');
+        }
+        else {
+            Alert.alert("Wrong password", "you have entered the wrong password. Please try again. ", [
+                { text: "OK", onPress: () => console.log("alert done") },
+            ]);
+        }
     }
     return (
-        <Layout style = {global.screen}>
-            <Text style = {global.headerText}>Sing In</Text>
-            <Layout style = {global.container}>
+        <Layout style={global.screen}>
+            <Text style={global.headerText}>Sign In</Text>
+            <Layout style={global.container}>
                 {/* <Text style={styles.text1}>Enter your 4 digit Pin</Text>
                 <Text style={styles.text2}>{mobNo}</Text> */}
 
-            <Input 
-                placeholder="Enter Phone number"
-                label={<Text style = {global.inputLabel}>Phone no</Text>}
-                
-                style={global.input} 
-                keyboardType="numeric"
-                
-                value = {phoneNo}
-                onChangeText = {(text)=>setPhoneNo(text)}
-            />
+                <Input
+                    placeholder="Enter Phone number"
+                    label={<Text style={global.inputLabel}>Phone no</Text>}
 
-                <Input 
-                placeholder="Enter PIN"
-                label={"PIN"}
-                maxLength={4}
-                style={global.input} 
-                keyboardType="numeric"
-                secureTextEntry={true}
-                value = {Pin}
-                onChangeText = {(text)=>setPin(text)}
+                    style={global.input}
+                    keyboardType="numeric"
+
+                    value={phoneNo}
+                    onChangeText={(text) => setPhoneNo(text)}
                 />
 
-               
-            
-                
-                <TouchableOpacity onPress={()=>Login()} ><Text style = {global.touchableComp}>Login</Text></TouchableOpacity>
-        </Layout>
+                <Input
+                    placeholder="Enter PIN"
+                    label={"PIN"}
+                    maxLength={4}
+                    style={global.input}
+                    keyboardType="numeric"
+                    secureTextEntry={true}
+                    value={Pin}
+                    onChangeText={(text) => setPin(text)}
+                />
+
+
+
+
+                <TouchableOpacity onPress={() => Login()} ><Text style={global.touchableComp}>Login</Text></TouchableOpacity>
+                <Layout>
+                    <TouchableOpacity onPress={() => { onPageChange('SignUp') }}>
+                        <Text style={global.touchableComp}>New user? Sign-up</Text>
+                    </TouchableOpacity>
+                </Layout>
+            </Layout>
 
         </Layout>
-       
+
     )
 }
 
@@ -96,6 +106,6 @@ const styles = StyleSheet.create({
         width: 200,
         textAlign: "center",
         marginLeft: 30
-        
+
     },
 })

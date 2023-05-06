@@ -5,7 +5,7 @@ const main = require('../../index');
 const bcrypt = require('bcrypt');
 const Web3 = require('web3');
 
-router.post("/sign-up", async (req, res)=>{
+router.post("/sign-up", async (req, res) => {
     try {
         console.log('yo');
         const db = main.getDb();
@@ -18,7 +18,8 @@ router.post("/sign-up", async (req, res)=>{
             shopDetails: req.body.shopdetails,
             phoneNo: req.body.phoneno,
             password: pass,
-            image: req.body.image
+            image: req.body.image,
+            isMerchant: req.body.isMerchant
         };
         // console.log(registered);
         const mer = db.collection("Merchants");
@@ -32,7 +33,7 @@ router.post("/sign-up", async (req, res)=>{
         const provider = new Web3.providers.HttpProvider(process.env.RPC_URL, { timeout: 5000, keepAlive: true });
         const web3 = await new Web3(provider);
         const mainContract = new web3.eth.Contract(contractAbi, process.env.CONTRACT_ADDRESS);
-        
+
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(process.env.OWNER_ADDRESS);
         const data = await mainContract.methods.registerUser(registered.insertedId.toString()).encodeABI();
@@ -66,7 +67,7 @@ router.post("/sign-up", async (req, res)=>{
         });
 
         console.log(registered);
-        res.status(201).json("registered");
+        res.status(201).json({phoneNo: req.body.phoneno, isMerchant: req.body.isMerchant, statusCode: 201});
     } catch (err) {
         res.status(400).json(err);
     }

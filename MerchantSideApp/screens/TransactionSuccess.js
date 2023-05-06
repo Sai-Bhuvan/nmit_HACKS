@@ -55,7 +55,7 @@ export default function TransactionSuccess({ transactionStatus, onPressDone }) {
           <Image
             style={styles.tick}
             source={{
-              uri: 'https://img.freepik.com/premium-vector/green-check-mark-icon-symbol-logo-circle-tick-symbol-green-color-vector-illustration_685751-503.jpg?w=360',
+              uri: 'https://static.vecteezy.com/system/resources/previews/004/988/429/original/red-wrong-mark-icon-free-free-vector.jpg',
             }} />
         </Layout>
         <Button

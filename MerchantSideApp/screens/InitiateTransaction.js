@@ -5,8 +5,10 @@ import { Camera, CameraType } from "expo-camera";
 import * as FaceDetector from 'expo-face-detector';
 import { View } from "react-native";
 import TransactionSuccess from "./TransactionSuccess";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
-export default function InitiateTransaction(){
+export default function InitiateTransaction() {
     const [mobNo, setMobNo] = useState("");
     const [pin, SetPin] = useState("");
     const [amt, setAmt] = useState("");
@@ -15,7 +17,7 @@ export default function InitiateTransaction(){
     const [openCamera, setOpenCamera] = useState(false);
     const [canTakePic, setCanTakePic] = useState(false);
     const [verified, setVerified] = useState(false);
-    const cameraref=useRef(null);
+    const cameraref = useRef(null);
 
     const [permission, requestPermission] = Camera.useCameraPermissions();
 
@@ -23,7 +25,7 @@ export default function InitiateTransaction(){
         // Camera permissions are still loading
         return <View />;
     }
-    
+
     if (!permission.granted) {
         // Camera permissions are not granted yet
         return (
@@ -35,21 +37,21 @@ export default function InitiateTransaction(){
         // requestPermission();
     }
 
-    const handleFacesDetected = ({ faces }) => { 
+    const handleFacesDetected = ({ faces }) => {
         setCanTakePic(faces.length == 1);
-    }; 
+    };
 
     const takePicture = async () => {
-        if(cameraref){
-            try{
+        if (cameraref) {
+            try {
                 const imageBase64 = await cameraref.current.takePictureAsync({
                     base64: true,
-                    quality: 0.1
+                    quality: 1
                 });
 
                 console.log('verifying');
-                
-                var result = await fetch('http://10.0.2.2:3000/compareFace', {
+
+                var result = await fetch('http://192.168.137.1:3000/compareFace', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -64,33 +66,51 @@ export default function InitiateTransaction(){
                 console.log(await result.json());
 
                 // If face match take to transaction processing page
-                if(result.status == 200) {
+                if (result.status == 200) {
                     setVerified(true);
                     setOpenCamera(false);
 
                     // Take to transaction processing page
                     setTransactionStatus('YES');
 
-                    var receipt = await fetch('http://10.0.2.2:3000/transaction', {
+                    const ph = await AsyncStorage.getItem('phone');
+                    var receipt = await fetch('http://192.168.137.1:3000/transaction', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            from: "1",
-                            to: "2",
-                            amount: 1000000
+                            from: mobNo,
+                            to: ph,
+                            pass: pin,
+                            amount: parseInt(amt)
                         })
                     });
 
-                    receipt = await receipt.json();
-                    console.log(receipt);
-                    setTransactionStatus(receipt.status);
+                    if(receipt.status == 200) {
+                        receipt = await receipt.json();
+                        console.log(receipt);
+                        setTransactionStatus(receipt.status);                        
+                    } 
+                    else {
+                        receipt = await receipt.json(); 
+                        Alert.alert("OOPS", receipt.message, [
+                            { text: "OK", onPress: () => console.log("alert done") },
+                        ]);  
+                        
+                        resetState();
+
+                        // return;
+                    }
+
+                    // receipt = await receipt.json();
+                    // console.log(receipt);
+                    // setTransactionStatus(receipt.status);
                 }
                 else {
                     Alert.alert("OOPS", "Could not verify it's you", [
                         { text: "OK", onPress: () => console.log("alert done") },
-                      ]);
+                    ]);
 
                     setOpenCamera(false);
                     setTransactionStatus('NO');
@@ -98,7 +118,7 @@ export default function InitiateTransaction(){
                 }
 
                 // Send this image to backend to match
-            }catch(e){
+            } catch (e) {
                 setOpenCamera(false);
                 setTransactionStatus('NO');
                 setVerified(false);
@@ -111,7 +131,7 @@ export default function InitiateTransaction(){
     function resetState() {
         setOpenCamera(false);
         setTransactionStatus('NO');
-        setVerified(false); 
+        setVerified(false);
         setMobNo(null);
         SetPin(null);
         setAmt(null);
@@ -138,14 +158,14 @@ export default function InitiateTransaction(){
                                 placeholder='Enter amount'
                                 value={amt}
                                 onChangeText={(text) => setAmt(text)}
-                                keyboardType='default' />
+                                keyboardType='numeric' />
                             <Input
                                 style={global.input}
                                 label="PIN"
                                 placeholder='Enter your 4 digit PIN'
                                 value={pin}
                                 onChangeText={(text) => SetPin(text)}
-                                keyboardType='default' />
+                                keyboardType='numeric' />
                             <Button
                                 style={global.button}
                                 appearance='outline'
@@ -177,7 +197,7 @@ export default function InitiateTransaction(){
                                 ><Text>Verify</Text></Button>
                             </Camera>
                         </View>}
-                </Layout>) : <TransactionSuccess transactionStatus={transactionStatus} onPressDone={resetState}/>
+                </Layout>) : <TransactionSuccess transactionStatus={transactionStatus} onPressDone={resetState} />
             }
         </Layout>
     );

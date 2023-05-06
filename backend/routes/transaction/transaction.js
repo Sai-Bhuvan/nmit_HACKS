@@ -4,6 +4,7 @@ const router = express.Router();
 // const { db } = require('../../index');
 const Web3 = require('web3');
 const main = require('../../index');
+const bcrypt = require('bcrypt');
 // const Provider = require('@truffle/hdwallet-provider');
 
 router.post('/transaction/', async function(req, res) {
@@ -12,17 +13,23 @@ router.post('/transaction/', async function(req, res) {
     // here from to us mob number
     const db = main.getDb();
     const body = req.body;
+    console.log(req.body);
     const from = body.from;
     const to = body.to;
     const amount = body.amount;
     const note = body.note;
-    
+    const pass = body.pass;
+
     try {
         // send transaction t smart contract
         // get user id using mobile number then send it to blockchain
-        const users = db.collection('users');
-        const fromUser = await users.findOne({ mobile: from });
-        const toUser = await users.findOne({ mobile: to });
+        const users = db.collection('Merchants');
+        const fromUser = await users.findOne({ phoneNo: from });
+        const toUser = await users.findOne({ phoneNo: to });
+
+        const correctPass = bcrypt.compareSync(pass, fromUser.password);
+
+        if(!correctPass) throw Error('Wrong PIN!');
 
         // Get transaction hash
         const contractAbi = require('../../smart-contract/main_contract_abi.json');
@@ -32,8 +39,8 @@ router.post('/transaction/', async function(req, res) {
         
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(process.env.OWNER_ADDRESS);
-        // const data = await mainContract.methods.transact(fromUser._id.toString(), toUser._id.toString(), amount).encodeABI();
-        const data = await mainContract.methods.transact(from, to, amount).encodeABI();
+        const data = await mainContract.methods.transact(fromUser._id.toString(), toUser._id.toString(), amount).encodeABI();
+        // const data = await mainContract.methods.transact(from, to, amount).encodeABI();
         const tx = {
             from: process.env.OWNER_ADDRESS,
             to: process.env.CONTRACT_ADDRESS,

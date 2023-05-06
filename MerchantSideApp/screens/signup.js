@@ -1,4 +1,4 @@
-import { Layout, Input, Text, Button, Divider } from "@ui-kitten/components";
+import { Layout, Input, Text, Button, Divider, CheckBox, Spinner } from "@ui-kitten/components";
 import React, { useRef, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import global from "../global";
@@ -15,21 +15,39 @@ export default function Signup({ onPageChange }) {
   const [shopdetails, setshopdetails] = useState("");
   const [password, setpassword] = useState("");
   const [confirmpassword, setconfirmsetpassword] = useState("");
+  const [isMerchant, setisMerchant] = useState(false);
 
   const [openCamera, setOpenCamera] = useState(false);
   const [canTakePic, setCanTakePic] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState(null);
   const cameraref = useRef(null);
 
-  
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+
+    if (!permission) {
+        // Camera permissions are still loading
+        return <View />;
+    }
+
+    if (!permission.granted) {
+        // Camera permissions are not granted yet
+        return (
+            <View style={global.screen}>
+                <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
+                <Button onPress={requestPermission} title="grant permission" />
+            </View>
+        );
+        // requestPermission();
+    }
+
+
 
   async function Submit() {
     if (
       !name ||
       !phoneno ||
       !email ||
-      !shop ||
-      !shopdetails ||
       !password ||
       !confirmpassword
     ) {
@@ -42,32 +60,40 @@ export default function Signup({ onPageChange }) {
         { text: "OK", onPress: () => console.log("password alert done") },
       ]);
     } else {
-      var res =await fetch("http://10.0.2.2:3000/sign-up", {
+      setIsLoading(true);
+      var res = await fetch("http://192.168.137.1:3000/sign-up", {
         method: "POST",
         headers: {
-            'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(
-            {
-                name: name,
-                email: email,
-                phoneno: phoneno,
-                password: password,
-                shop: shop,
-                shopdetails: shopdetails,
-                image: image
-            }
+          {
+            name: name,
+            email: email,
+            phoneno: phoneno,
+            password: password,
+            shop: shop,
+            shopdetails: shopdetails,
+            image: image,
+            isMerchant: isMerchant,
+          }
         )
-        
+
 
       }
-      
+
       );
 
-      console.log(await res.json());
+      // console.log(res);
       await AsyncStorage.setItem('phone', phoneno);
-      if(res.status == 201){
+      if (res.status == 201) {
+        res = await res.json();
+        console.log(res);
+        await AsyncStorage.setItem('isMerchant', String(res.isMerchant));
         onPageChange('HomePage')
+      }
+      else {
+        setIsLoading(false);
       }
     }
   }
@@ -80,176 +106,189 @@ export default function Signup({ onPageChange }) {
     Submit();
   };
 
-  const handleFacesDetected = ({ faces }) => { 
+  const handleFacesDetected = ({ faces }) => {
     setCanTakePic(faces.length == 1);
-  }; 
+  };
 
   const takePicture = async () => {
-      if(cameraref){
-          try{
-              const imageBase64 = await cameraref.current.takePictureAsync({
-                  base64: true,
-                  quality: 0.1
-              });
+    if (cameraref) {
+      try {
+        const imageBase64 = await cameraref.current.takePictureAsync({
+          base64: true,
+          quality: 1
+        });
 
-              setImage(imageBase64.base64);
+        setImage(imageBase64.base64);
 
-              setOpenCamera(false);
-              
-          }catch(e){
-              setOpenCamera(false);
+        setOpenCamera(false);
 
-              console.log(e);
-          }
+      } catch (e) {
+        setOpenCamera(false);
+
+        console.log(e);
       }
+    }
   }
 
 
-  return(
-      <Layout style={global.screen}>
-        { openCamera ? (<View style={global.screen}>
-          <Camera
-              onFacesDetected={handleFacesDetected}
-              faceDetectorSettings={{
-                  mode: FaceDetector.FaceDetectorMode.fast,
-                  detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
-                  runClassifications: FaceDetector.FaceDetectorClassifications.none,
-                  minDetectionInterval: 100,
-                  tracking: true
-              }}
-              ref={cameraref}
-              style={{ flex: 1 }}
-              type={CameraType.front}
-          >
-              <Button
-                  style={[global.button, { flexDirection: 'row', margin: 60, alignSelf: 'flex-end' }]}
-                  appearance='outline'
-                  onPress={takePicture}
-                  disabled={!canTakePic}
-              ><Text>Take Pic</Text></Button>
-          </Camera>
-      </View>) : (<Layout>
-      <ScrollView>
-        <Layout>
-          <Text style={global.headerText}>Welcome to XYZ</Text>
-        </Layout>
-
-
-        <Layout style={global.container}>
-
-
-
-          <Layout>
-            <Input
-              style={global.input}
-              label="Name"
-              placeholder='enter your name'
-              value={name}
-              onChangeText={(text) => setname(text)}
-              keyboardType='default' />
-            <Divider />
-          </Layout>
-
-
-          <Layout>
-            <Input
-              style={global.input}
-              label="Moblie No"
-              placeholder='enter your shop mobile number'
-              keyboardType='numeric'
-              value={phoneno}
-              onChangeText={(text) => setphoneno(text)} />
-            <Divider />
-          </Layout>
-
-
-          <Layout>
-            <Input
-              style={global.input}
-              label={"E-mail"}
-              placeholder='enter your shop email'
-              keyboardType='email-address'
-              value={email}
-              onChangeText={(text) => setemail(text)} />
-            <Divider />
-          </Layout>
-
-
-          <Layout>
-            <Input
-              style={global.input}
-              label={"Shop Name"}
-              placeholder='enter your shop name'
-              keyboardType='default'
-              value={shop}
-              onChangeText={(text) => setshop(text)} />
-            <Divider />
-          </Layout>
-
-
-          <Layout>
-            <Input
-              style={global.input}
-              label={"Shop Descripton"}
-              placeholder="enter briefly about "
-              multiline
-              editable
-              value={shopdetails}
-              onChangeText={(text) => setshopdetails(text)}
-              keyboardType='default'
-              numberOfLines={3}
-              maxLength={40} />
-            <Divider />
-          </Layout>
-
-
-          <Layout>
-            <Input
-              style={global.input}
-              label="Password"
-              keyboardType='default'
-              value={password}
-              onChangeText={(text) => setpassword(text)}
-              placeholder='enter your password' />
-            <Divider />
-          </Layout>
-
-          <Layout>
-            <Input
-              style={global.input}
-              placeholder="confirm your password"
-              label={"Confirm Pin"}
-              keyboardType="default"
-              value={confirmpassword}
-              onChangeText={(text) => setconfirmsetpassword(text)}
-              secureTextEntry={true} />
-            <Divider />
-          </Layout>
-
+  return (
+    <Layout style={global.screen}>
+      {openCamera ? (<View style={global.screen}>
+        <Camera
+          onFacesDetected={handleFacesDetected}
+          faceDetectorSettings={{
+            mode: FaceDetector.FaceDetectorMode.fast,
+            detectLandmarks: FaceDetector.FaceDetectorLandmarks.none,
+            runClassifications: FaceDetector.FaceDetectorClassifications.none,
+            minDetectionInterval: 100,
+            tracking: true
+          }}
+          ref={cameraref}
+          style={{ flex: 1 }}
+          type={CameraType.front}
+        >
           <Button
-            style={global.button}
+            style={[global.button, { flexDirection: 'row', margin: 60, alignSelf: 'flex-end' }]}
             appearance='outline'
-            onPress={() => setOpenCamera(true)}
-          ><Text>Upload Picture</Text></Button>
-          {image != null && <Text>Picture Taken!</Text>}
-
+            onPress={takePicture}
+            disabled={!canTakePic}
+          ><Text>Take Pic</Text></Button>
+        </Camera>
+      </View>) : (<Layout>
+        <ScrollView>
           <Layout>
+            <Text style={global.headerText}>SIMPLI PAY</Text>
+          </Layout>
+
+
+          <Layout style={global.container}>
+
+
+
+            <Layout>
+              <Input
+                style={global.input}
+                label="Name"
+                placeholder='enter your name'
+                value={name}
+                onChangeText={(text) => setname(text)}
+                keyboardType='default' />
+              <Divider />
+            </Layout>
+
+
+            <Layout>
+              <Input
+                style={global.input}
+                label="Moblie No"
+                placeholder='enter your shop mobile number'
+                keyboardType='numeric'
+                value={phoneno}
+                onChangeText={(text) => setphoneno(text)} />
+              <Divider />
+            </Layout>
+
+
+            <Layout>
+              <Input
+                style={global.input}
+                label={"E-mail"}
+                placeholder='enter your email'
+                keyboardType='email-address'
+                value={email}
+                onChangeText={(text) => setemail(text)} />
+              <Divider />
+            </Layout>
+
+            <Layout>
+              <CheckBox
+                checked={isMerchant}
+                onChange={nextChecked => setisMerchant(nextChecked)}
+                style={{ padding: 20 }}
+              >
+                is Merchant
+              </CheckBox>
+            </Layout>
+            {isMerchant &&
+              <Layout>
+                <Layout>
+                  <Input
+                    style={global.input}
+                    label={"Shop Name"}
+                    placeholder='enter your shop name'
+                    keyboardType='default'
+                    value={shop}
+                    onChangeText={(text) => setshop(text)} />
+                  <Divider />
+                </Layout>
+
+
+                <Layout>
+                  <Input
+                    style={global.input}
+                    label={"Shop Descripton"}
+                    placeholder="enter briefly about "
+                    multiline
+                    editable
+                    value={shopdetails}
+                    onChangeText={(text) => setshopdetails(text)}
+                    keyboardType='default'
+                    numberOfLines={3}
+                    maxLength={40} />
+                  <Divider />
+                </Layout>
+              </Layout>
+
+            }
+
+            <Layout>
+              <Input
+                style={global.input}
+                label="Password"
+                keyboardType='number-pad'
+                value={password}
+                onChangeText={(text) => setpassword(text)}
+                placeholder='enter your password' />
+              <Divider />
+            </Layout>
+
+            <Layout>
+              <Input
+                style={global.input}
+                placeholder="confirm your password"
+                label={"Confirm Pin"}
+                keyboardType='number-pad'
+                value={confirmpassword}
+                onChangeText={(text) => setconfirmsetpassword(text)}
+                secureTextEntry={true} />
+              <Divider />
+            </Layout>
+
             <Button
-              appearance="ghost"
-              onPress={() => Submit()}>
-              Sign Up
-            </Button>
-            <Divider />
-          </Layout>
+              style={global.button}
+              appearance='outline'
+              onPress={() => setOpenCamera(true)}
+            ><Text>Upload Picture</Text></Button>
+            {image != null && <Text style={{ alignSelf: "center" }}>Picture Taken!</Text>}
 
-          <Layout>
-            <TouchableOpacity onPress={() => {  } }>
-              <Text style={global.touchableComp}>Already have an account Sign-In</Text>
-            </TouchableOpacity>
+            <Layout style={{ alignItems: "center" }} >
+              {isLoading ? <Spinner /> : <Button
+                style={global.button}
+                appearance="outline"
+                onPress={() => Submit()}>
+                Sign Up
+              </Button>}
+              <Divider />
+            </Layout>
+
+            <Layout>
+              <TouchableOpacity onPress={() => { onPageChange('SignIn') }}>
+                <Text style={global.touchableComp}>Already have an account Sign-In</Text>
+              </TouchableOpacity>
+            </Layout>
           </Layout>
-        </Layout>
-      </ScrollView>
-    </Layout>) }
-      </Layout>
+        </ScrollView>
+      </Layout>)}
+    </Layout>
   );
 }
