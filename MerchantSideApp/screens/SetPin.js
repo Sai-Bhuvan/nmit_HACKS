@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import * as eva from '@eva-design/eva';
-import { Button, Input, Layout, Text } from '@ui-kitten/components';
+import { Button, Divider, Input, Layout, Text } from '@ui-kitten/components';
 import global from '../global';
+
 
 export default function SetPin() { 
 
@@ -25,18 +25,34 @@ export default function SetPin() {
     }
 
     return(        
-            <Layout style = {global.container}>
+        <Layout style = {{}}>           
+            
+            <Layout>
                 <Text style = {global.headerText}>Set Pin</Text>
+            </Layout>
+            
+            <Layout style = {global.container}>
+                
+            <Layout>
+
+                
                 <Input
                     style = {global.input}
-                    label = "PIN"
+                    label = {<Text style = {global.inputLabel}>PIN</Text>}
                     placeholder='Enter PIN'
                     secureTextEntry = {true}
+                    
                     value = {pin}
                     inputMode='numeric'
                     onChangeText={(val) => setPin(val)}
                     />
+                   
 
+                    
+            </Layout>
+            <Divider/>
+
+            <Layout>            
                 <Input
                     style = {global.input}
                     label = "Confirm PIN"
@@ -49,17 +65,17 @@ export default function SetPin() {
                        <Text>pin do not match</Text>                                         
                     }}}
                 />
-
-                <Input 
-                    label=""
-                />
+            </Layout>
+            <Divider/>
 
                 <Button onPress={handlePinPress} 
                     appearance='ghost'
                 >
                     <Text>Submit</Text>
                 </Button>
-            </Layout>  
+            </Layout> 
+            
+        </Layout> 
        
     );
     

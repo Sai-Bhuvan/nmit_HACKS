@@ -1,9 +1,35 @@
-import { Text, View } from 'react-native';
-import Signup from './screens/signup';
-import SetPin from './screens/SetPin';
-import { ApplicationProvider, Layout, Input } from '@ui-kitten/components';
+import Signup from './screens/Signup';
+// import SetPin from './screens/SetPin';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { ApplicationProvider,BottomNavigation, BottomNavigationTab } from '@ui-kitten/components';
+
 import * as eva from '@eva-design/eva';
-import global from './global';
+import Home from './screens/Home';
+import Transaction from './screens/Transaction'
+import Profile from './screens/Profile'
+import SignIn from './screens/signin';
+
+const { Navigator, Screen } = createBottomTabNavigator();
+
+const BottomTabBar = ({ navigation, state }) => (
+  <BottomNavigation
+    selectedIndex={state.index}
+    onSelect={index => navigation.navigate(state.routeNames[index])}>
+    <BottomNavigationTab title='Home'/>
+    <BottomNavigationTab title='Transactions'/>
+    <BottomNavigationTab title='Profile'/>
+  </BottomNavigation>
+);
+
+const TabNavigator = () => (
+  <Navigator tabBar={props => <BottomTabBar {...props} />}>
+    <Screen name='Home' component={Home}/>
+    <Screen name='Transaction' component={Transaction}/>
+    <Screen name='Profile' component={Profile}/>
+  </Navigator>
+);
+
 
 export default function App() {
 
@@ -13,12 +39,11 @@ export default function App() {
   }
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
-      <View >
-        <Text>Merchant app</Text>
-        {/* <Signup/> */}
-
-        <SetPin/>
-      </View>
+      {/* <NavigationContainer>
+        <TabNavigator/>
+      </NavigationContainer>              */}
+      {/* <Signup/> */}
+      <SignIn/>
     </ApplicationProvider>
     
   )
