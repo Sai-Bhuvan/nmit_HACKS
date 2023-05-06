@@ -44,10 +44,10 @@ export default function App() {
   }
   return (
     <ApplicationProvider {...eva} theme={eva.dark}>
-      <NavigationContainer>
+      {/* <NavigationContainer>
         <TabNavigator/>
-      </NavigationContainer>         
-      {/* <Signup/> */}
+      </NavigationContainer>          */}
+      <Signup/>
       {/* <SignIn/> */}
     </ApplicationProvider>
     

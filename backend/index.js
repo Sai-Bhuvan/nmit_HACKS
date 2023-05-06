@@ -10,21 +10,18 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const pass = process.env.PASS;
 
 app.use(cors());
 app.use(express.json({limit:'100mb'}));
 
 const connUrl = process.env.CONN_URL;
-const client = new MongoClient("mongodb+srv://nmit_hacks:ifyouseethisyouaregay@cluster0.wjhpxdo.mongodb.net/?retryWrites=true&w=majority", {
+const client = new MongoClient(process.env.CONN_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
 // Get different collections
 const db = client.db('backend');
-
-const bcryptSalt = bcrypt.genSaltSync(10);
 
 // Routes to different services
 app.use(require('./routes/transaction/transaction'));
@@ -33,54 +30,9 @@ app.use(require('./routes/transaction/deposit'));
 app.use(require('./routes/face-recognition/face-recognition'));
 app.use(require('./routes/transaction/getBalance'));
 app.use(require('./routes/transaction/previousTransactions'));
+app.use(require('./routes/authentication/signup'));
+app.use(require('./routes/authentication/signin'));
 
-// Global error handling
-// app.use((err, _req, res)=> {
-//     console.error(err.stack);
-//     res.status(500).send('Something broke!');
-// });
-
-// Sign-Up
-app.post("/sign-up", async (req, res)=>{
-    try {
-        const myDb = db;
-        console.log(req.body);
-        const newMerchant = {
-            name: req.body.name,
-            email: req.body.email,
-            shopName: req.body.shop,
-            shopDetails: req.body.shopdetails,
-            phoneNo: req.body.phoneno,
-            password: bcrypt.hashSync(req.body.password, bcryptSalt),
-        };
-        // console.log(registered);
-        const mer = db.collection("Merchants");
-
-        const registered = await mer.insertOne(newMerchant);
-        console.log(registered);
-        res.status(201).json("registered");
-    } catch (err) {
-        res.status(400).json(err);
-    }
-})
-
-// Sign-In
-app.post("/sign-in", async (req, res)=>{
-    const pin = req.body.pin;
-    const phone = req.body.phone;
-    console.log(req.body);
-    const mer = db.collection("Merchants");
-    const userFound = await mer.findOne({phoneNo: phone});
-    console.log(userFound);
-    const passOk = bcrypt.compareSync(pin, userFound.password);
-    console.log(passOk);
-    if (passOk) {
-        res.status(200).json({ message: 'pass-ok', statusCode: 200 });
-    }
-    else{
-        res.status(200).json({ message: 'pass-wrong', statusCode: 400 });
-    }
-})
 
 // start the Express server
 app.listen(PORT, () => {

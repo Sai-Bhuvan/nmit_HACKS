@@ -32,7 +32,8 @@ router.post('/transaction/', async function(req, res) {
         
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(process.env.OWNER_ADDRESS);
-        const data = await mainContract.methods.transact(fromUser._id.toString(), toUser._id.toString(), amount).encodeABI();
+        // const data = await mainContract.methods.transact(fromUser._id.toString(), toUser._id.toString(), amount).encodeABI();
+        const data = await mainContract.methods.transact(from, to, amount).encodeABI();
         const tx = {
             from: process.env.OWNER_ADDRESS,
             to: process.env.CONTRACT_ADDRESS,
