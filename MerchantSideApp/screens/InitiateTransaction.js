@@ -1,12 +1,25 @@
-import { Layout, Input } from "@ui-kitten/components";
+import { Layout, Input, Text, Button } from "@ui-kitten/components";
 import { useState } from "react";
+import global from "../global";
 
 export default function InitiateTransaction(){
     const [mobNo, setMobNo] = useState("");
     const [pin, SetPin] = useState("");
     const [amt, setAmt] = useState("");
+
+    const [transactionProcessing, setTransactionProcessing] = useState(false);
+
+    async function startTransaction() {
+        setTransactionProcessing(true);
+
+        // Open camera take a picture
+        // Verify picture with mobile number entered
+        // If face match take to transaction processing page
+        // wait for status
+    }
+
     return (
-        <Layout>
+        <Layout style={global.screen}>
             <Input 
                                 style = {global.input}
                                 label= "Mobile Number"
@@ -31,6 +44,10 @@ export default function InitiateTransaction(){
                                 onChangeText={(text)=>SetPin(text)}
                                 keyboardType='default'
                             />
+                        <Button
+                            style={global.button}
+                            appearance='outline'
+                        ><Text>Submit</Text></Button>
         </Layout>
     )
 }

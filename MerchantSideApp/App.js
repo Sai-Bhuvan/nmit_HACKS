@@ -20,6 +20,7 @@ const BottomTabBar = ({ navigation, state }) => (
     <BottomNavigationTab title='Home'/>
     <BottomNavigationTab title='Transactions'/>
     <BottomNavigationTab title='Profile'/>
+    <BottomNavigationTab title='Payment'/>
   </BottomNavigation>
 );
 
@@ -28,6 +29,7 @@ const TabNavigator = () => (
     <Screen name='Home' component={Home}/>
     <Screen name='Transaction' component={Transaction}/>
     <Screen name='Profile' component={Profile}/>
+    <Screen name='Payment' component={InitiateTransaction}/>
   </Navigator>
 );
 
