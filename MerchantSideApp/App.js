@@ -50,7 +50,8 @@ export default function App() {
       </NavigationContainer>          */}
       {/* <Signup/> */}
       {/* <SignIn/> */}
-      <Transactions item = {[{from: "user", to: "keeper", date: "23-03-24" }]}/>
+      {/* <Transactions item = {[{from: "user", to: "keeper", date: "23-03-24" }]}/> */}
+      <Signup/>
     </ApplicationProvider>
     
   )
