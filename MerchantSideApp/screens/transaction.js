@@ -58,7 +58,7 @@ export default function Transactions() {
             >
             <Layout>
                 <Text>{new Date(item.time).toDateString()} </Text>
-                <AmountRight amount={item.amount} type={phoneNo == item.from ? 'debit' : 'credit'} status={item.status}/>
+                <AmountRight amount={item.amount} type={item.to == 'self' ? 'credit' : (phoneNo == item.from ? 'debit' : 'credit')} status={item.status}/>
             </Layout>
         </Card>
     }

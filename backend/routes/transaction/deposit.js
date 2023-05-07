@@ -10,10 +10,10 @@ router.post('/deposit/', async function(req, res) {
         const from = req.body.from;
         const amount = req.body.amount;
 
-        const users = db.collection('users');
-        const fromUser = await users.findOne({ mobile: from });
+        const users = db.collection('Merchants');
+        const fromUser = await users.findOne({ phoneNo: from });
 
-        // if(!fromUser) throw Error('User not found!');
+        if(!fromUser) throw Error('User not found!');
 
         const contractAbi = require('../../smart-contract/main_contract_abi.json');
         const provider = new Web3.providers.HttpProvider(process.env.RPC_URL, { timeout: 5000, keepAlive: true });
@@ -22,7 +22,7 @@ router.post('/deposit/', async function(req, res) {
         
         const gasPrice = await web3.eth.getGasPrice();
         const nonce = await web3.eth.getTransactionCount(process.env.OWNER_ADDRESS);
-        const data = await mainContract.methods.deposit("1").encodeABI();
+        const data = await mainContract.methods.deposit(fromUser._id.toString()).encodeABI();
         const tx = {
             from: process.env.OWNER_ADDRESS,
             to: process.env.CONTRACT_ADDRESS,
