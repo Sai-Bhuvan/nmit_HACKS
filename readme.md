@@ -1,4 +1,4 @@
-#SIMPLIPAY<br><br>
+<h1>SIMPLIPAY</h1><br>
 
 Are you tired of carrying around bulky wallets and purses filled with cash and credit cards? Are you constantly worrying about the safety and security of your financial information? Well, fear not because a revolutionary new payment system is here to change the game.<br><br>
 
@@ -13,3 +13,9 @@ Say goodbye to the hassle of carrying around physical payment methods and welcom
 And the best part? This payment system is not just fast and convenient, but it's also eco-friendly. By eliminating the need for paper money and plastic cards, we can reduce our carbon footprint and contribute to a more sustainable future.<br><br>
 
 Join the movement towards a more convenient, secure, and eco-friendly payment system. Embrace the future and switch to this innovative payment system today.<br><br>
+
+<h3>How to Use?</h3>
+- Open 'backend' and start server using 'node index.js'
+- Open 'MerchantSideApp' and run it on an android device (not emulator) using 'npm start'
+- Now everything must be working
+
